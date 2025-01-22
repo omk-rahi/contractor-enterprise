@@ -1,0 +1,21 @@
+# Virtual Environment
+.venv/
+
+# Django-specific
+*.log
+*.pot
+*.py[cod]
+instance/
+db.sqlite3
+
+
+# Migrations
+**/migrations/
+
+# Frontend (Node.js)
+frontend/node_modules/
+
+
+# Visual Studio Code
+.vscode/
+*.code-workspace

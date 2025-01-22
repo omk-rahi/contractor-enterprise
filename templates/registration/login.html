@@ -1,0 +1,30 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block main %}
+
+<form method="post" action="{% url 'login' %}" class="auth__form">
+  {% csrf_token %}
+  <ul class="nav nav-underline py-2 row">
+    <li class="nav-item text-center col">
+      <a href="{% url 'login' %}" class="nav-link active">Sign In</a>
+    </li>
+    <li class="nav-item text-center col">
+      <a href="{% url 'register' %}" class="nav-link">Sign Up</a>
+    </li>
+  </ul>
+
+  <div class="auth__form-content">
+    {% csrf_token %} {{form|crispy }}
+
+    <a
+      href="/accounts/password_reset"
+      class="link-underline link-underline-opacity-0 d-block"
+      >Forget Password</a
+    >
+    <button
+      class="btn btn-primary text-white text-uppercase text-sm w-100 mt-4"
+    >
+      Sign In&nbsp;<i data-feather="arrow-right" width="20" height="20"></i>
+    </button>
+  </div>
+</form>
+
+{% endblock main %}

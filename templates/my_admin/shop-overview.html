@@ -1,0 +1,75 @@
+{% extends "admin-base.html" %} {% block main %}
+
+<div class="center">
+  <div class="w-100 border-bottom p-3 admin-search">
+    <div class="container row align-items-center mx-auto">
+      <p class="text-uppercase mb-0 fs-7 fw-medium col-8">SHOP</p>
+      <form action="#" class="col-4">
+        <input type="text" class="form-control" placeholder="Search...." />
+      </form>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row p-3 mt-6 gap-4">
+      <a
+        href="{% url 'admin/list-product' %}"
+        class="col bg-primary bg-opacity-25 d-flex align-items-center default-border-radius link-underline link-underline-opacity-0"
+      >
+        <span
+          class="d-inline-block p-2 bg-white m-3 text-primary default-border-radius"
+        >
+          <i data-feather="box" width="32" height="32"></i>
+        </span>
+        <div class="my-4 mx-2">
+          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <span class="secondary-body-text">Products</span>
+        </div>
+      </a>
+      <a
+        href="{% url 'admin/list-brand' %}"
+        class="col bg-success bg-opacity-25 d-flex align-items-center default-border-radius link-underline link-underline-opacity-0"
+      >
+        <span
+          class="d-inline-block p-2 bg-white m-3 text-success default-border-radius"
+        >
+          <i data-feather="briefcase" width="32" height="32"></i>
+        </span>
+        <div class="my-4 mx-2">
+          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <span class="secondary-body-text">Brand</span>
+        </div>
+      </a>
+      <a
+        href="{% url 'admin/list-product-type' %}"
+        class="col bg-info bg-opacity-25 d-flex align-items-center default-border-radius link-underline link-underline-opacity-0"
+      >
+        <span
+          class="d-inline-block p-2 bg-white m-3 text-info default-border-radius"
+        >
+          <i data-feather="flag" width="32" height="32"></i>
+        </span>
+        <div class="my-4 mx-2">
+          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <span class="secondary-body-text">Product Type</span>
+        </div>
+      </a>
+      <a
+        href="{% url 'admin/list-category' %}"
+        class="col bg-warning bg-opacity-25 d-flex align-items-center default-border-radius link-underline link-underline-opacity-0"
+      >
+        <span
+          class="d-inline-block p-2 bg-white m-3 text-warning default-border-radius"
+        >
+          <i data-feather="tag" width="32" height="32"></i>
+        </span>
+        <div class="my-4 mx-2">
+          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <span class="secondary-body-text">Category</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

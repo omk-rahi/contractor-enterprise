@@ -1,0 +1,45 @@
+table {
+  width: 100%;
+}
+
+thead tr {
+  background-color: #e4e7e9 !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #475156;
+  border-top: 1px solid #e4e7e9;
+  border-bottom: 1px solid #e4e7e9;
+}
+
+table tr {
+  display: flex;
+}
+
+table th,
+td {
+  flex: 1;
+}
+
+thead tr th {
+  padding: 14px 24px;
+}
+
+tbody tr {
+  font-size: 14px;
+}
+
+tbody tr td {
+  padding: 14px 24px;
+}
+
+.table-container {
+  border: 1px solid #e4e7e9;
+  margin-top: 40px;
+  align-self: center;
+  border-radius: 4px;
+}
+
+.admin-search .form-control {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}

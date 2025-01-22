@@ -1,0 +1,112 @@
+{% load static %} {% load active_link %}{% load active_link_exact %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contractor Enterprise IT Solutions - Admin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static "index.css" %}">
+  </head>
+  <body>
+    <main class="d-flex flex-nowrap" style="height: 100dvh">
+      <div
+        class="d-flex flex-column flex-shrink-0 p-3 bg-secondary h-100"
+        style="width: 280px"
+      >
+        <a href="{% url 'admin/dashboard' %}" class="center-x">
+          <img src="{% static "images/logo.png" %}" alt="Brand Logo"></a
+        >
+
+        <div class="text-primary">
+          <hr />
+        </div>
+
+        <ul class="nav nav-pills flex-column mb-auto gap-2">
+          <li class="nav-item">
+            <a
+              href="{% url 'admin/dashboard' %}"
+              class="nav-link text-white {% active_link_exact 'admin/dashboard' %}"
+              aria-current="page"
+            >
+              <i data-feather="home" width="20" class="me-2"></i> Home
+            </a>
+          </li>
+          <li>
+            <a
+              class="nav-link text-white {% active_link 'shop' %}"
+              href="{% url 'admin/shop-overview' %}"
+            >
+              <i data-feather="shopping-bag" width="20" class="me-2"></i>
+              Shop
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'admin/services-overview' %}"
+              class="nav-link text-white {% active_link 'services' %}"
+            >
+              <i data-feather="table" width="20" class="me-2"></i>
+              Services
+            </a>
+          </li>
+          <li>
+            <a
+              href="{% url 'admin/settings' %}"
+              class="nav-link text-white {% active_link 'settings' %}"
+            >
+              <i data-feather="settings" width="20" class="me-2"></i>
+              Settings
+            </a>
+          </li>
+        </ul>
+
+        <div class="text-primary">
+          <hr />
+        </div>
+
+        <div class="dropdown">
+          <a
+            href="#"
+            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+              alt=""
+              width="32"
+              height="32"
+              class="rounded-circle me-2"
+            />
+            <strong>{{user.fullname}}</strong>
+          </a>
+          <ul class="dropdown-menu text-small shadow">
+            <li>
+              <a class="dropdown-item" href="{% url 'password_change' %}"
+                >Change Password</a
+              >
+            </li>
+            <li>
+              <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item">Log out</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex-fill">{% block main %}{% endblock %}</div>
+    </main>
+
+    <script src="{% static 'index.js' %}"></script>
+  </body>
+</html>

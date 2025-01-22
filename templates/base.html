@@ -1,0 +1,104 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contractor Enterprise IT Solutions</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="{% static "index.css" %}">
+  </head>
+  <body>
+    <!-- NAVBAR -->
+
+    <nav class="navbar bg-secondary">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="{% static "images/logo.png" %}" alt="Brand Logo" height="42"
+          />
+        </a>
+
+        <form class="w-50" role="search">
+          <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+              <i data-feather="search" width="20" height="20"></i>
+            </span>
+
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Search for anything..."
+              aria-label="Search for anything..."
+            />
+          </div>
+        </form>
+
+        <ul class="d-flex gap-4 pt-3">
+          {% if user.is_authenticated %}
+          <li>
+            <a href="/cart" class="text-white">
+              <i data-feather="shopping-cart" width="32" height="32"></i>
+            </a>
+          </li>
+          <li>
+            <!-- Example single danger button -->
+            <div class="btn-group">
+              <button
+                type="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                class="bg-transparent text-white border border-0"
+              >
+                <i data-feather="user" width="32" height="32"></i>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <form action="{% url "logout" %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-item">
+                      <i data-feather="log-out" width="20" height="20"></i>&nbsp;
+                      Log out
+                    </button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+          </li>
+
+          {% else %}
+          <li>
+            <a
+              href="/accounts/register"
+              class="btn btn-outline-light text-uppercase"
+            >
+              Sign Up
+            </a>
+          </li>
+          <li>
+            <a href="/accounts/login" class="btn btn-light text-uppercase">
+              Sign In
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+
+    <main class="center-x">{% block main %}{% endblock %}</main>
+
+    <script src="{% static 'index.js' %}"></script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+@use "./variables";
+
+.auth__form {
+  width: 424px;
+  box-shadow: variables.$card-shadow;
+  margin-top: 100px;
+}
+
+.auth__form-content {
+  padding: 24px 32px;
+}

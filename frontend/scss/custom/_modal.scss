@@ -1,0 +1,11 @@
+$modal-inner-padding: 16px 24px;
+
+$modal-content-border-radius: 2px;
+$modal-content-border-color: none;
+$modal-footer-border-color: transparent;
+
+.modal-footer {
+  justify-content: flex-start !important;
+  padding: 12px 24px !important;
+  margin: 0 !important;
+}
