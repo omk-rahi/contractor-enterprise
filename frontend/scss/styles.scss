@@ -1,13 +1,199 @@
-@use "custom/variables";
-@use "custom/reset";
-@use "custom/utils";
-@use "custom/buttons";
-@use "custom/input";
-@use "custom/nav";
-@use "custom/modal";
-@use "custom/dropdown";
-@use "custom/pagination";
-@use "custom/table";
-@use "custom/form";
+// GLOBAL
+
+$font-family-base: "Public Sans";
+$primary: #00a3d4;
+$secondary: #2f4858;
+$body-color: #191c1f;
+$success: #bcd800;
+$info: #f06c9b;
+
+$card-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+
+// BUTTON
+
+$btn-border-radius: 3px;
+$btn-font-size: 16px;
+$btn-font-weight: 500;
+$btn-padding-x: 32px;
+$btn-padding-y: 10px;
+$btn-font-size: 14px;
+
+// INPUT
+$input-border-radius: 2px;
+$input-btn-padding-y: 9px;
+$form-label-font-size: 14px;
+
+// NAV
+
+$nav-underline-link-active-color: #191c1f;
+$nav-link-font-size: 18px;
+$nav-underline-border-width: 3px;
+$nav-link-color: #77878f;
+
+.nav-underline .nav-link.active {
+  border-bottom-color: $primary;
+  font-weight: 500;
+}
+
+.nav-underline .nav-link:hover:not(.active) {
+  border-bottom-color: transparent;
+}
+
+.navbar .form-control:focus {
+  box-shadow: none;
+  border-color: #dee2e6;
+}
+
+// MODAL
+
+$modal-inner-padding: 16px 24px;
+
+$modal-content-border-radius: 2px;
+$modal-content-border-color: none;
+$modal-footer-border-color: transparent;
+
+.modal-footer {
+  justify-content: flex-start !important;
+  padding: 12px 24px !important;
+  margin: 0 !important;
+}
+
+// DROPDOWN
+
+$dropdown-border-radius: 4px;
+$dropdown-item-padding-y: 10px;
+$dropdown-border-color: transparent;
+$dropdown-divider-bg: #e9ecef;
+.dropdown-menu.show {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+// PAGINATION
+
+$pagination-color: #191c1f;
+$pagination-focus-bg: transparent;
+
+.pagination .page-item {
+  margin: 0 8px;
+  font-size: 14px;
+}
+
+.pagination .page-item:first-child .page-link,
+.pagination .page-item:last-child .page-link {
+  border-radius: 100%;
+  color: $primary;
+}
+
+.pagination .page-item.disabled .page-link {
+  color: #adb5bd;
+}
+
+.pagination .page-link {
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-color: #e4e7e9;
+  padding: 10px 0;
+}
+
+// RESET
+
+ul {
+  list-style: none;
+}
+
+// UTILS
+
+.default-border-radius {
+  border-radius: 2px;
+}
+
+.secondary-body-text {
+  color: #475156;
+}
+
+.fs-7 {
+  font-size: 14px;
+}
+
+.center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.center-x {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mt-6 {
+  margin-top: 40px !important;
+}
+
+// TABLE
+
+.table-container {
+  border: 1px solid #e4e7e9;
+  margin-top: 40px;
+  align-self: center;
+  border-radius: 4px;
+}
+
+.admin-search .form-control {
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+table {
+  width: 100%;
+}
+
+thead tr {
+  background-color: #e4e7e9 !important;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #475156;
+  border-top: 1px solid #e4e7e9;
+  border-bottom: 1px solid #e4e7e9;
+}
+
+table tr {
+  display: flex;
+}
+
+table th,
+td {
+  flex: 1;
+}
+
+thead tr th {
+  padding: 14px 24px;
+}
+
+tbody tr {
+  font-size: 14px;
+}
+
+tbody tr td {
+  padding: 14px 24px;
+}
+
+// FORM
+
+.auth__form {
+  width: 424px;
+  box-shadow: $card-shadow;
+  margin-top: 100px;
+}
+
+.auth__form-content {
+  padding: 24px 32px;
+}
 
 @import "bootstrap/scss/bootstrap";
