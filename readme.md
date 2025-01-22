@@ -1,6 +1,6 @@
-# Django Project with Frontend
+# Contractor Enterprise IT Solutions
 
-This is a Django-based web application with a separate frontend directory using Node.js for managing frontend dependencies.
+Contractor Enterprise IT Solutions is a web-based platform designed to make the company's services and products easily accessible online.
 
 ## Prerequisites
 
