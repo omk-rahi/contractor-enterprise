@@ -184,6 +184,26 @@ tbody tr td {
   padding: 14px 24px;
 }
 
+table .dropdown-toggle {
+  width: 32px;
+  height: 32px;
+  border-radius: 100%;
+}
+
+table .dropdown-toggle:active,
+table .dropdown-toggle.btn.show {
+  border-color: transparent !important;
+  background-color: #f1f3f5;
+}
+
+table .dropdown-toggle::after {
+  display: none !important;
+}
+
+table .dropdown-item:active {
+  background-color: transparent !important;
+}
+
 // FORM
 
 .auth__form {

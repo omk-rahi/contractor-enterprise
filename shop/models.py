@@ -1,5 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator
+from accounts.models import CustomUser
+
 # Create your models here.
 
 class ProductType(models.Model):
@@ -53,3 +55,19 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Image of {self.product.name}"
+    
+
+class Order(models.Model):
+
+    STATUS = [
+            ('created', 'Created'), 
+            ('confirmed', 'Confirmed'), 
+            ('in_process', 'In Process'),
+            ('canceled', 'Canceled'),
+            ('delivered', 'Delivered'),
+        ]
+
+
+    status = models.CharField(max_length=15, choices=STATUS, default='created')
+    user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="user_orders")
+    

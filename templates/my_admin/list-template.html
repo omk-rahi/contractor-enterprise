@@ -60,14 +60,14 @@
 
             <td>{{object|get_attr:field}}</td>
             {% endif %} {% endfor %} {% if not extra.not_allow_action %}
-            <td class="dropdown">
+            <td class="dropdown py-1">
               <button
-                class="btn btn-outline btn-secondary dropdown-toggle text-uppercase"
+                class="btn btn-white dropdown-toggle p-0 d-flex justify-content-center align-items-center"
                 type="button"
                 data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Action
+                <i data-feather="more-vertical" width="20" height="20"></i>
               </button>
 
               <ul class="dropdown-menu">
@@ -75,16 +75,16 @@
 
                 <li>
                   <a href="./{{object.id}}" class="dropdown-item text-primary"
-                    ><i data-feather="arrow-right" width="16" height="16"></i
-                    >&nbsp;View Detail</a
+                    ><i data-feather="external-link" width="20" height="20"></i
+                    >&nbsp; View Detail</a
                   >
                 </li>
                 {% endif %} {% if not extra.not_allow_action %}
                 <li>
                   <a
                     href="./update/{{object.id}}"
-                    class="dropdown-item text-warning"
-                    ><i data-feather="edit" width="16" height="16"></i>&nbsp;
+                    class="dropdown-item text-success"
+                    ><i data-feather="edit" width="20" height="20"></i>&nbsp;
                     Update</a
                   >
                 </li>
@@ -92,7 +92,7 @@
                   <a
                     href="./delete/{{object.id}}"
                     class="dropdown-item text-danger"
-                    ><i data-feather="trash" width="16" height="16"></i>&nbsp;
+                    ><i data-feather="trash" width="20" height="20"></i>&nbsp;
                     Delete</a
                   >
                 </li>

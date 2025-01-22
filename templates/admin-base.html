@@ -81,25 +81,39 @@
             data-bs-toggle="dropdown"
             aria-expanded="false"
           >
+            {% if user.profile_image %}
             <img
-              src="https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250"
+              src="/media/{{user.profile_image}}"
               alt=""
               width="32"
               height="32"
               class="rounded-circle me-2"
             />
+            {% else %}
+            <img
+              src="{% static 'images/user.png' %}"
+              alt=""
+              width="32"
+              height="32"
+              class="rounded-circle me-2"
+            />
+            {% endif %}
             <strong>{{user.fullname}}</strong>
           </a>
           <ul class="dropdown-menu text-small shadow">
             <li>
-              <a class="dropdown-item" href="{% url 'password_change' %}"
-                >Change Password</a
+              <a class="dropdown-item" href="{% url 'password_change' %}">
+                <i data-feather="key" width="20" height="20"></i>&nbsp; Change
+                Password</a
               >
             </li>
             <li>
               <form action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="dropdown-item">Log out</button>
+                <button type="submit" class="dropdown-item">
+                  <i data-feather="log-out" width="20" height="20"></i>&nbsp;
+                  Log out
+                </button>
               </form>
             </li>
           </ul>
