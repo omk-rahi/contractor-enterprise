@@ -8,8 +8,6 @@
 instance/
 db.sqlite3
 
-
-
 # Frontend (Node.js)
 frontend/node_modules/
 

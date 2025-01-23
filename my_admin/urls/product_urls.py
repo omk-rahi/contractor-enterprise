@@ -25,6 +25,6 @@ product_patterns = [
     path("create/", view=CreateProductView.as_view(), name="admin/create-product"),
     path("update/<int:pk>/", view=UpdateProductView.as_view(), name="admin/update-product"),
     path("delete/<int:pk>/", view=DeleteProductView.as_view(), name="admin/delete-product"),
-    path("<int:pk>/images/", include(product_image_patterns)),
-    path("<int:pk>/specs/", include(product_spec_patterns)),
+    path("<int:product_pk>/images/", include(product_image_patterns)),
+    path("<int:product_pk>/specs/", include(product_spec_patterns)),
 ]
