@@ -10,6 +10,9 @@ class Service(models.Model):
     description = models.TextField()
     image = models.ImageField(upload_to="services/")
 
+    def __str__(self):
+        return self.name
+
 
     
 class Quote(models.Model):

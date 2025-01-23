@@ -70,4 +70,17 @@ class Order(models.Model):
 
     status = models.CharField(max_length=15, choices=STATUS, default='created')
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="user_orders")
+
+
+    def __str__(self):
+        return f"Order from {self.user}"
     
+class OrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name="product")
+    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING, related_name="orders")
+    quantity = models.PositiveIntegerField()
+    price = models.PositiveBigIntegerField()
+
+    
+    def __str__(self):
+        return f"{self.product.name} | {self.quantity} | ₹{self.price}"

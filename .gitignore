@@ -9,8 +9,6 @@ instance/
 db.sqlite3
 
 
-# Migrations
-**/migrations/
 
 # Frontend (Node.js)
 frontend/node_modules/

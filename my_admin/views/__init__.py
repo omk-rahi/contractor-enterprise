@@ -9,3 +9,4 @@ from .products_views import *
 from .services_views import *
 from .shop_views import *
 from .staff_views import *
+from .orders_views import *
