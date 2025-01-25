@@ -1,12 +1,9 @@
 {% extends "admin-base.html" %} {% block main %}
 
 <div class="center">
-  <div class="w-100 border-bottom p-3 admin-search">
+  <div class="w-100 border-bottom p-4 admin-search">
     <div class="container row align-items-center mx-auto">
       <p class="text-uppercase mb-0 fs-7 fw-medium col-8">SHOP</p>
-      <form action="#" class="col-4">
-        <input type="text" class="form-control" placeholder="Search...." />
-      </form>
     </div>
   </div>
 
@@ -22,7 +19,7 @@
           <i data-feather="box" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">{{extra.product_count}}</p>
           <span class="secondary-body-text">Products</span>
         </div>
       </a>
@@ -36,7 +33,7 @@
           <i data-feather="briefcase" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">{{extra.brand_count}}</p>
           <span class="secondary-body-text">Brand</span>
         </div>
       </a>
@@ -50,7 +47,9 @@
           <i data-feather="flag" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.product_type_count}}
+          </p>
           <span class="secondary-body-text">Product Type</span>
         </div>
       </a>
@@ -64,7 +63,9 @@
           <i data-feather="tag" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.category_count}}
+          </p>
           <span class="secondary-body-text">Category</span>
         </div>
       </a>

@@ -1,7 +1,8 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
+from django.shortcuts import render
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
-from shop.models import Product
+from shop.models import Product, ProductImage, Specification, ProductOption
 
 # Create your views here.
 
@@ -17,9 +18,22 @@ class ListProductView(AddExtraContextMixin, ListView):
     }
 
 
-class DetailProductView(AddExtraContextMixin, DetailView):
-    model = Product
-    template_name = "my_admin/product-detail.html"
+class DetailProductView(AddExtraContextMixin, View):
+
+    def get(self, request, pk):
+
+        template_name = "my_admin/product-detail.html"
+        object = Product.objects.get(id=pk)
+
+        extra_context = {
+            "image_count": ProductImage.objects.all().count(),
+            "option_count": ProductOption.objects.all().count(),
+            "specs_count": Specification.objects.all().count(),
+            "reviews_count": 0
+        }
+
+        return render(request, template_name=template_name, context={"object": object, "extra" : extra_context}) 
+
 
 
 

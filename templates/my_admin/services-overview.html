@@ -1,12 +1,9 @@
 {% extends "admin-base.html" %} {% block main %}
 
 <div class="center">
-  <div class="w-100 border-bottom p-3 admin-search">
+  <div class="w-100 border-bottom p-4 admin-search">
     <div class="container row align-items-center mx-auto">
       <p class="text-uppercase mb-0 fs-7 fw-medium col-8">Services</p>
-      <form action="#" class="col-4">
-        <input type="text" class="form-control" placeholder="Search...." />
-      </form>
     </div>
   </div>
 
@@ -22,7 +19,9 @@
           <i data-feather="layers" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.services_count}}
+          </p>
           <span class="secondary-body-text">Services</span>
         </div>
       </a>
@@ -35,7 +34,7 @@
           <i data-feather="message-circle" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">{{extra.quotes_count}}</p>
           <span class="secondary-body-text">Quotes</span>
         </div>
       </a>
@@ -48,7 +47,9 @@
           <i data-feather="calendar" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.bookings_count}}
+          </p>
           <span class="secondary-body-text">Bookings</span>
         </div>
       </a>
@@ -61,7 +62,9 @@
           <i data-feather="message-square" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.feedbacks_count}}
+          </p>
           <span class="secondary-body-text">Feedbacks</span>
         </div>
       </a>

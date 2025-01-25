@@ -9,7 +9,6 @@ class ListCustomerView(View):
 
         object_list = CustomUser.objects.filter(role='customer')
         
-
         extra = {
             "title": "Customers",
             "fields" : ["id", "fullname", "email", "phone"],

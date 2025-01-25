@@ -1,13 +1,27 @@
-from django.views.generic import  TemplateView, UpdateView
+from django.shortcuts import render
+from django.views.generic import  View, UpdateView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
 from accounts.models import CustomUser
-
+from shop.models import Order, Payment
 
 # Create your views here.
 
-class DashBoardView(TemplateView):
-    template_name = "my_admin/dashboard.html"
+class DashBoardView(AddExtraContextMixin, View):
+
+    def get(self, request):
+
+        template_name = "my_admin/dashboard.html"
+
+        extra_context = {
+            "customer_count": CustomUser.objects.filter(role="customer").count(),
+            "staff_count": CustomUser.objects.filter(role="staff").count(),
+            "order_count": Order.objects.all().count(),
+            "payment_count": Payment.objects.all().count(),
+        }
+
+        return render(request, template_name=template_name, context={"extra" : extra_context}) 
+
 
 class UpdateAdminView(AddExtraContextMixin, UpdateView):
     model = CustomUser

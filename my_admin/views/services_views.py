@@ -1,13 +1,28 @@
-from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView
+from django.shortcuts import render
+from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
-from services.models import Service
+from services.models import Service, Quote
 
 # Create your views here.
 
-class ServicesOverview(TemplateView):
-    template_name = "my_admin/services-overview.html"
-    
+class ServicesOverview(AddExtraContextMixin, View):
+
+    def get(self, request):
+
+        template_name = "my_admin/services-overview.html"
+
+        extra_context = {
+            "services_count": Service.objects.all().count(),
+            "quotes_count": Quote.objects.all().count(),
+            "bookings_count": 0,
+            "feedbacks_count": 0
+        }
+
+        return render(request, template_name=template_name, context={"extra" : extra_context}) 
+
+
+        
 
 class ListServiceView(AddExtraContextMixin, ListView):
     model = Service

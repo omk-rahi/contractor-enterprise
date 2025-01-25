@@ -1,12 +1,9 @@
 {% extends "admin-base.html" %} {% block main %}
 
 <div class="center">
-  <div class="w-100 border-bottom p-3 admin-search">
+  <div class="w-100 border-bottom p-4 admin-search">
     <div class="container row align-items-center mx-auto">
       <p class="text-uppercase mb-0 fs-7 fw-medium col-8">DASHBOARD</p>
-      <form action="#" class="col-4">
-        <input type="text" class="form-control" placeholder="Search...." />
-      </form>
     </div>
   </div>
 
@@ -22,7 +19,7 @@
           <i data-feather="shopping-cart" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">{{extra.order_count}}</p>
           <span class="secondary-body-text">Orders</span>
         </div>
       </a>
@@ -36,7 +33,7 @@
           <i data-feather="dollar-sign" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">{{extra.payment_count}}</p>
           <span class="secondary-body-text">Payments</span>
         </div>
       </a>
@@ -50,7 +47,9 @@
           <i data-feather="users" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.customer_count}}
+          </p>
           <span class="secondary-body-text">Customers</span>
         </div>
       </a>
@@ -64,7 +63,9 @@
           <i data-feather="user-plus" width="32" height="32"></i>
         </span>
         <div class="my-4 mx-2">
-          <p class="m-0 fs-5 fw-bold text-secondary">154</p>
+          <p class="m-0 fs-5 fw-bold text-secondary">
+            {{extra.customer_count}}
+          </p>
           <span class="secondary-body-text">Staff</span>
         </div>
       </a>
