@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import CustomUser
+from .models import CustomUser, OTP
 
 class RegisterForm(UserCreationForm):
 
@@ -20,3 +20,10 @@ class StaffRegisterForm(RegisterForm):
     class Meta:
         model = CustomUser
         fields = ['fullname', 'email', 'phone', 'password1', 'password2', "role"]
+
+class VerifyForm(forms.ModelForm):
+    class Meta:
+        model = OTP
+        fields = ['code']
+
+    

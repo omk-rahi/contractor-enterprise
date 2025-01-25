@@ -1,18 +1,16 @@
-from django.views.generic import View
+from django.views.generic import  View
 from django.shortcuts import render
-from accounts.models import CustomUser
+from shop.models import Payment
 
-# Create your views here.
-
-class ListCustomerView(View):
+class ListPaymentView(View):
     def get(self, request):
 
-        object_list = CustomUser.objects.filter(role='customer')
+        object_list = Payment.objects.filter()
         
 
         extra = {
-            "title": "Customers",
-            "fields" : ["id", "fullname", "email", "phone"],
+            "title": "Payments",
+            "fields" : ["id", "status", "date", "payment_method", "total"],
             "disable_action": True,
             "disable_create": True,
         }

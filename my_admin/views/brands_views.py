@@ -10,6 +10,7 @@ class ListBrandView(AddExtraContextMixin, ListView):
     model = Brand
     template_name = "my_admin/list-template.html"
     paginate_by = 5 
+    ordering = ['id']
     extra_context = {
         "title": "Brands",
         "fields": [field.name for field in Brand._meta.get_fields() if not field.is_relation]

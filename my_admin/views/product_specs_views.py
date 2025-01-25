@@ -9,6 +9,7 @@ class ListProductSpecsView(AddExtraContextMixin, ListView):
     model = Specification
     template_name = "my_admin/list-template.html"
     paginate_by = 5 
+    ordering = ['id']
     extra_context = {
         "title": "Product Specs",
         "fields": [field.name for field in Specification._meta.get_fields() if not field.is_relation]

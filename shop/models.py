@@ -57,6 +57,24 @@ class ProductImage(models.Model):
         return f"Image of {self.product.name}"
     
 
+class ProductOption(models.Model):
+
+    OPTIONS = [
+        ("SIZE", "Size"),
+        ("COLOR", "Color"),
+        ("CAPACITY", "Capacity"),
+        ("SPEED", "Speed"),
+        ("TYPE", "Type"),
+
+    ]
+
+    option = models.CharField(max_length=20, choices=OPTIONS)
+    value = models.CharField(max_length=20)
+    additional_cost = models.PositiveIntegerField()
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="options")
+
+    
+
 class Order(models.Model):
 
     STATUS = [
@@ -67,13 +85,18 @@ class Order(models.Model):
             ('delivered', 'Delivered'),
         ]
 
+    
 
-    status = models.CharField(max_length=15, choices=STATUS, default='created')
+    status = models.CharField(max_length=15, choices=STATUS, default='Created')
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="user_orders")
+    date = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
         return f"Order from {self.user}"
+    
+    def get_total_str(self):
+        return '₹800 (5 Products)'
     
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name="product")
@@ -84,3 +107,28 @@ class OrderItem(models.Model):
     
     def __str__(self):
         return f"{self.product.name} | {self.quantity} | ₹{self.price}"
+
+
+class Payment(models.Model):
+
+    STATUS = [
+        ('pending', 'Pending'), 
+        ('completed', 'Completed'), 
+        ('failed', 'Failed'),
+        ('rejected', 'Rejected'),
+    ]
+
+    METHOD = [
+        ("COD", "COD"), 
+        ("Online", "Online")
+        ]
+
+
+    amount = models.PositiveIntegerField()
+    payment_method = models.CharField(max_length=20, choices=METHOD)
+    status = models.CharField(max_length=20, choices=STATUS)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payment")
+    date = models.DateTimeField(auto_now_add=True)
+
+    def get_total_str(self):
+        return '₹800'

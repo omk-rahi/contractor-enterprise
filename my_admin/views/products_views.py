@@ -9,6 +9,7 @@ class ListProductView(AddExtraContextMixin, ListView):
     model = Product
     template_name = "my_admin/list-template.html"
     paginate_by = 5 
+    ordering = ['id']
     extra_context = {
         "title": "Products",
         "fields": [field.name for field in Product._meta.get_fields() if not field.is_relation],

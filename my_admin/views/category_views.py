@@ -9,6 +9,7 @@ class ListCategoryView(AddExtraContextMixin, ListView):
     model = Category
     template_name = "my_admin/list-template.html"
     paginate_by = 5 
+    ordering = ['id']
     extra_context = {
         "title": "Categories",
         "fields": [field.name for field in Category._meta.get_fields() if not field.is_relation]

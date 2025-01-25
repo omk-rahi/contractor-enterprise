@@ -12,7 +12,8 @@ class ServicesOverview(TemplateView):
 class ListServiceView(AddExtraContextMixin, ListView):
     model = Service
     template_name = "my_admin/list-template.html"
-    paginate_by = 5 
+    paginate_by = 5
+    ordering = ['id']
     extra_context = {
         "title": "Services",
         "fields": [field.name for field in Service._meta.get_fields() if not field.is_relation]

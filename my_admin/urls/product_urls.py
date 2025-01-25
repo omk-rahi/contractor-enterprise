@@ -2,6 +2,7 @@ from django.urls import path, include
 from my_admin.views.products_views import *
 from my_admin.views.product_images_views import *
 from my_admin.views.product_specs_views import *
+from my_admin.views.product_options_views import *
 
 
 product_image_patterns = [
@@ -18,6 +19,15 @@ product_spec_patterns = [
     path("delete/<int:pk>/", DeleteProductSpecsView.as_view(), name="admin/delete-product-spec"),
 ]
 
+product_options_patterns = [
+    path("", ListProductOptionsView.as_view(), name="admin/list-product-option"),
+    path("create", CreateProductOptionsView.as_view(), name="admin/create-product-option"),
+    path("update/<int:pk>/", UpdateProductOptionsView.as_view(), name="admin/update-product-option"),
+    path("delete/<int:pk>/", DeleteProductOptionsView.as_view(), name="admin/delete-product-option"),
+]
+
+
+
 
 product_patterns = [
     path("", ListProductView.as_view(), name="admin/list-product"),
@@ -27,4 +37,5 @@ product_patterns = [
     path("delete/<int:pk>/", view=DeleteProductView.as_view(), name="admin/delete-product"),
     path("<int:product_pk>/images/", include(product_image_patterns)),
     path("<int:product_pk>/specs/", include(product_spec_patterns)),
+    path("<int:product_pk>/options/", include(product_options_patterns)),
 ]

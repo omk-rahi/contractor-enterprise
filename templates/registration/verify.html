@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block main %}
+
+<form method="post" action="{% url 'verify' %}" class="auth__form">
+  {% csrf_token %}
+  <div class="auth__form-content">
+    <h5 class="text-center">Verify Your Email Address</h5>
+    <p class="fw-light text-center fs-7 text-body-secondary">
+      Enter verification code to verify your account.
+    </p>
+    {% csrf_token %} {{form|crispy }} {% if messages %}
+    <ul class="messages p-0">
+      {% for message in messages %}
+      <li class="alert alert-success m-0">
+        <i data-feather="check-circle" width="20" height="20"></i>&nbsp;
+        <span>OTP send to your email.</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <a
+      href="{% url 'verify-send-otp' %}"
+      class="link-underline link-underline-opacity-0 d-block mb-2 send-otp-button"
+    >
+      Send Code
+    </a>
+    {% endif %}
+
+    <button
+      class="btn btn-primary text-white text-uppercase text-sm w-100 mt-2"
+    >
+      Verify Me&nbsp;<i data-feather="arrow-right" width="20" height="20"></i>
+    </button>
+  </div>
+</form>
+
+{% endblock main %}

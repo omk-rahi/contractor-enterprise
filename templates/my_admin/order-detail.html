@@ -1,0 +1,92 @@
+{% extends "admin-base.html" %}{%load crispy_forms_tags %} {% block main %}
+
+<div class="center">
+  <div class="w-100 border-bottom p-3 admin-search">
+    <div class="container row align-items-center mx-auto">
+      <p class="text-uppercase mb-0 fs-7 fw-medium col-8">Order Detail</p>
+      <div class="col-4 d-flex justify-content-end">
+        <a
+          class="btn btn-primary text-white text-uppercase d-flex justify-content-center align-items-center gap-1"
+          href="javascript:history.back()"
+        >
+          <i data-feather="arrow-left" width="16" height="16"></i>&nbsp;Back
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container mt-6">
+    <div
+      class="bg-primary-subtle p-4 default-border-radius d-flex align-items-center justify-content-between"
+    >
+      <div>
+        <p class="my-0 fs-3">#{{object.id}}</p>
+        <p class="my-0 text-secondary">
+          <span>2 Products</span>&nbsp;&ndash;&nbsp;
+          <span>Order Placed on {{object.date|date:"M d, Y H:i"}}</span>
+        </p>
+      </div>
+      <div>
+        <p class="fs-2 text-secondary my-0">₹1199</p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <h5 class="my-2">Product <span class="text-black-50">(02)</span></h5>
+      <div class="table-container mt-0">
+        <table>
+          <thead>
+            <tr>
+              <th>PRODUCT</th>
+              <th>PRICE</th>
+              <th>QUANTITY</th>
+              <th>SUB total</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>
+                <img
+                  src="https://rukminim2.flixcart.com/image/850/1000/xif0q/keyboard/desktop-keyboard/w/l/6/gaming-keyboard-with-87-keys-rgb-backlit-with-suspension-keys-original-imagzcgwtrabgjna.jpeg?q=20&crop=false"
+                  alt=""
+                  width="150"
+                />
+              </td>
+              <td>₹500</td>
+              <td>1</td>
+              <td>₹500</td>
+            </tr>
+            <tr>
+              <td>
+                <img
+                  src="https://rukminim2.flixcart.com/image/850/1000/xif0q/keyboard/desktop-keyboard/w/l/6/gaming-keyboard-with-87-keys-rgb-backlit-with-suspension-keys-original-imagzcgwtrabgjna.jpeg?q=20&crop=false"
+                  alt=""
+                  width="150"
+                />
+              </td>
+              <td>₹500</td>
+              <td>1</td>
+              <td>₹500</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="mt-4 border p-4">
+      <h5>Billing Address</h5>
+      <h6 class="mt-4">Kevin Gilbert</h6>
+      <p class="my-2">
+        East Tejturi Bazar, Word No. 04, Road No. 13/x, House no. 1320/C,
+        <br />
+        Flat No. 5D, Dhaka - 1200, Bangladesh
+      </p>
+
+      <p class="my-2">Phone: +1-202-555-0118</p>
+      <p class="my-2">Email: kevin.gilbert@gmail.com</p>
+    </div>
+  </div>
+
+  {% endblock main %}
+</div>

@@ -35,7 +35,7 @@
           <li class="nav-item">
             <a
               href="{% url 'admin/dashboard' %}"
-              class="nav-link text-white {% active_link_exact 'admin/dashboard' %}"
+              class="nav-link text-white {% active_link_exact 'admin/dashboard' %} {% active_link_exact 'admin/list-customer' %} {% active_link 'admin/staff' %} {% active_link 'orders' %} {% active_link_exact 'admin/list-payment' %}"
               aria-current="page"
             >
               <i data-feather="home" width="20" class="me-2"></i> Home

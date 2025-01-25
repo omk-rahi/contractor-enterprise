@@ -6,6 +6,7 @@ from .services_urls import services_patterns
 from .shop_urls import shop_patterns
 from .staff_urls import staff_patterns
 from .orders_urls import orders_patterns
+from .payments_urls import payments_patterns
 
 
 urlpatterns = [
@@ -17,4 +18,5 @@ urlpatterns = [
     path("shop/", include(shop_patterns)),
     path("staffs/",include(staff_patterns)),
     path("orders/",include(orders_patterns)),
+    path("payments/",include(payments_patterns)),
 ]
