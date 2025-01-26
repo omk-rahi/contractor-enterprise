@@ -27,7 +27,6 @@ def register(request):
     else :
         form = RegisterForm()
 
-    print(request.path.split('/'))
     
     return render(request, "registration/register.html", {"form": form})
 
