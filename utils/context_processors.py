@@ -22,6 +22,5 @@ def breadcrumb_context(request):
 
         breadcrumbs.append(new_breadcrumb)
 
-    print(breadcrumbs)
 
     return {"breadcrumbs": breadcrumbs};
