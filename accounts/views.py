@@ -9,7 +9,7 @@ from .models import CustomUser
 
 # Create your views here.
 
-def index():
+def index(request):
     return redirect('./login')
 
 
@@ -26,6 +26,8 @@ def register(request):
     
     else :
         form = RegisterForm()
+
+    print(request.path.split('/'))
     
     return render(request, "registration/register.html", {"form": form})
 

@@ -19,92 +19,155 @@
   </head>
   <body>
     <!-- NAVBAR -->
+    <header>
+      <nav class="navbar bg-secondary">
+        <div class="container">
+          <a class="navbar-brand" href="/">
+            <img src="{% static "images/logo.png" %}" alt="Brand Logo"
+            height="42" />
+          </a>
 
-    <nav class="navbar bg-secondary">
-      <div class="container">
-        <a class="navbar-brand" href="/">
-          <img src="{% static "images/logo.png" %}" alt="Brand Logo" height="42"
-          />
-        </a>
+          <form class="w-50" role="search">
+            <div class="input-group">
+              <span class="input-group-text" id="basic-addon1">
+                <i data-feather="search" width="20" height="20"></i>
+              </span>
 
-        <form class="w-50" role="search">
-          <div class="input-group">
-            <span class="input-group-text" id="basic-addon1">
-              <i data-feather="search" width="20" height="20"></i>
-            </span>
-
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search for anything..."
-              aria-label="Search for anything..."
-            />
-          </div>
-        </form>
-
-        <ul class="d-flex gap-4 pt-3">
-          {% if user.is_authenticated %}
-          <li>
-            <a href="/cart" class="text-white">
-              <i data-feather="shopping-cart" width="32" height="32"></i>
-            </a>
-          </li>
-          <li>
-            <div class="btn-group">
-              <button
-                type="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                class="bg-transparent text-white border border-0"
-              >
-                <i data-feather="user" width="32" height="32"></i>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                {% if not user.is_verified %}
-                <li>
-                  <a class="dropdown-item" href="{% url 'verify' %}"
-                    ><i data-feather="mail" width="20" height="20"></i>&nbsp;
-                    Verify Email</a
-                  >
-                </li>
-                {% endif %}
-                <li>
-                  <form action="{% url 'logout' %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="dropdown-item">
-                      <i data-feather="log-out" width="20" height="20"></i
-                      >&nbsp; Log out
-                    </button>
-                  </form>
-                </li>
-              </ul>
+              <input
+                class="form-control me-2"
+                type="search"
+                placeholder="Search for anything..."
+                aria-label="Search for anything..."
+              />
             </div>
-          </li>
+          </form>
 
-          {% else %}
-          <li>
-            <a
-              href="/accounts/register"
-              class="btn btn-outline-light text-uppercase"
-            >
-              Sign Up
-            </a>
-          </li>
-          <li>
-            <a href="/accounts/login" class="btn btn-light text-uppercase">
-              Sign In
-            </a>
-          </li>
-          {% endif %}
-        </ul>
+          <ul class="d-flex gap-4 pt-3">
+            {% if user.is_authenticated %}
+            <li>
+              <a href="/cart" class="text-white">
+                <i data-feather="shopping-cart" width="32" height="32"></i>
+              </a>
+            </li>
+            <li>
+              <div class="btn-group">
+                <button
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  class="bg-transparent text-white border border-0"
+                >
+                  <i data-feather="user" width="32" height="32"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                  </li>
+                  <li><hr class="dropdown-divider" /></li>
+                  {% if not user.is_verified %}
+                  <li>
+                    <a class="dropdown-item" href="{% url 'verify' %}"
+                      ><i data-feather="mail" width="20" height="20"></i>&nbsp;
+                      Verify Email</a
+                    >
+                  </li>
+                  {% endif %}
+                  <li>
+                    <form action="{% url 'logout' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="dropdown-item">
+                        <i data-feather="log-out" width="20" height="20"></i
+                        >&nbsp; Log out
+                      </button>
+                    </form>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
+            {% else %}
+            <li>
+              <a
+                href="/accounts/register"
+                class="btn btn-outline-light text-uppercase"
+              >
+                Sign Up
+              </a>
+            </li>
+            <li>
+              <a href="/accounts/login" class="btn btn-light text-uppercase">
+                Sign In
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </nav>
+
+      <div class="border-bottom py-2">
+        <div class="container">
+          <ul class="nav align-items-center">
+            <li class="nav-item">
+              <form action="#">
+                <select name="" id="" class="form-select">
+                  <option>All Category</option>
+                </select>
+              </form>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i data-feather="map-pin" width="20" height="20"></i>&nbsp;
+                Track Order
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i data-feather="monitor" width="20" height="20"></i>&nbsp; PC
+                Builder
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i data-feather="headphones" width="20" height="20"></i>&nbsp;
+                Customer Support
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i data-feather="alert-circle" width="20" height="20"></i>&nbsp;
+                Need Help
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </nav>
+    </header>
+
+    <div class="bg-light-gray">
+      <div class="container py-3">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active">
+              <a href="/" class="fs-7 link-underline link-underline-opacity-0">
+                Home</a
+              >
+            </li>
+
+            {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item">
+              <a
+                href="{{breadcrumb.url}}"
+                class="fs-7 link-underline link-underline-opacity-0"
+                >{{breadcrumb.name}}</a
+              >
+            </li>
+            {% endfor %}
+          </ol>
+        </nav>
+      </div>
+    </div>
 
     <main class="center-x">{% block main %}{% endblock %}</main>
     <script

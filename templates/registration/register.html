@@ -1,6 +1,10 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% block main %}
 
-<form method="post" action="{% url 'register' %}" class="auth__form">
+<form
+  method="post"
+  action="{% url 'register' %}"
+  class="auth__form register-form"
+>
   <ul class="nav nav-underline py-2 row">
     <li class="nav-item text-center col">
       <a href="{% url 'login' %}" class="nav-link">Sign In</a>
