@@ -9,7 +9,7 @@ from shop.models import Product, ProductImage, Specification, ProductOption
 class ListProductView(AddExtraContextMixin, ListView):
     model = Product
     template_name = "my_admin/list-template.html"
-    paginate_by = 5 
+    paginate_by = 3 
     ordering = ['id']
     extra_context = {
         "title": "Products",
@@ -26,9 +26,9 @@ class DetailProductView(AddExtraContextMixin, View):
         object = Product.objects.get(id=pk)
 
         extra_context = {
-            "image_count": ProductImage.objects.all().count(),
-            "option_count": ProductOption.objects.all().count(),
-            "specs_count": Specification.objects.all().count(),
+            "image_count": ProductImage.objects.filter(product=pk).count(),
+            "option_count": ProductOption.objects.filter(product=pk).count(),
+            "specs_count": Specification.objects.filter(product=pk).count(),
             "reviews_count": 0
         }
 

@@ -15,6 +15,11 @@ class ListProductSpecsView(AddExtraContextMixin, ListView):
         "fields": [field.name for field in Specification._meta.get_fields() if not field.is_relation]
     }
 
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(product=self.kwargs.get('product_pk'))
+
 
 class CreateProductSpecsView(AddExtraContextMixin, CreateView):
     model = Specification

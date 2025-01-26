@@ -30,9 +30,10 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=False)
     warranty_periods = models.IntegerField(validators=[MinValueValidator(1)])
-    
-    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, related_name="brand_products")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="category_products")
+    base_price = models.PositiveBigIntegerField()
+    available_stock = models.PositiveIntegerField()
+    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, related_name="products")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
 
 
     def __str__(self):
@@ -60,17 +61,17 @@ class ProductImage(models.Model):
 class ProductOption(models.Model):
 
     OPTIONS = [
-        ("SIZE", "Size"),
-        ("COLOR", "Color"),
-        ("CAPACITY", "Capacity"),
-        ("SPEED", "Speed"),
-        ("TYPE", "Type"),
+        ("Size", "Size"),
+        ("Color", "Color"),
+        ("Capacity", "Capacity"),
+        ("Speed", "Speed"),
+        ("Type", "Type"),
 
     ]
 
     option = models.CharField(max_length=20, choices=OPTIONS)
     value = models.CharField(max_length=20)
-    additional_cost = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="options")
 
     

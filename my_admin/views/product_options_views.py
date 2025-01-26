@@ -15,6 +15,11 @@ class ListProductOptionsView(AddExtraContextMixin, ListView):
         "fields": [field.name for field in ProductOption._meta.get_fields() if not field.is_relation]
     }
 
+    
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(product=self.kwargs.get('product_pk'))
+
 
 class CreateProductOptionsView(AddExtraContextMixin, CreateView):
     model = ProductOption

@@ -15,6 +15,12 @@ class ListProductImageView(AddExtraContextMixin, ListView):
         "fields": [field.name for field in ProductImage._meta.get_fields() if not field.is_relation]
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(product=self.kwargs.get('product_pk'))
+
+    
+    
 
 class CreateProductImageView(AddExtraContextMixin, CreateView):
     model = ProductImage
