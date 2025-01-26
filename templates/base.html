@@ -149,14 +149,18 @@
       <div class="container py-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item active">
+            <li
+              class="breadcrumb-item {% if breadcrumbs|length == 1 %}active{% endif %}"
+            >
               <a href="/" class="fs-7 link-underline link-underline-opacity-0">
                 Home</a
               >
             </li>
 
             {% for breadcrumb in breadcrumbs %}
-            <li class="breadcrumb-item">
+            <li
+              class="breadcrumb-item {% if breadcrumb.active %}active{% endif %}"
+            >
               <a
                 href="{{breadcrumb.url}}"
                 class="fs-7 link-underline link-underline-opacity-0"

@@ -4,7 +4,7 @@ def breadcrumb_context(request):
 
     segments = request.path.strip('/').split('/')
 
-    url = '/'
+    url = ''
 
     for segment in segments:
 
@@ -12,10 +12,13 @@ def breadcrumb_context(request):
 
         new_breadcrumb = {
             "name": segment.replace('_', ' ').title(),
-            "url": url
+            "url": url,
+            "active": request.path == url
         }
+
 
         breadcrumbs.append(new_breadcrumb)
 
+    print(breadcrumbs)
 
     return {"breadcrumbs": breadcrumbs};
