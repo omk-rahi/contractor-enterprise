@@ -13,7 +13,7 @@ def breadcrumb_context(request):
         new_breadcrumb = {
             "name": segment.replace('_', ' ').title(),
             "url": url,
-            "active": request.path == url
+            "active": request.path.strip('/') == url.strip('/')
         }
 
 
