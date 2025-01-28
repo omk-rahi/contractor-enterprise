@@ -14,6 +14,9 @@ importers:
       bootstrap:
         specifier: ^5.3.3
         version: 5.3.3(@popperjs/core@2.11.8)
+      counterup2:
+        specifier: ^2.0.2
+        version: 2.0.2
       feather-icons:
         specifier: ^4.29.2
         version: 4.29.2
@@ -289,6 +292,9 @@ packages:
 
   core-js@3.39.0:
     resolution: {integrity: sha512-raM0ew0/jJUqkJ0E6e8UDtl+y/7ktFivgWvqw8dNSQeNWoSDLvQ1H/RN3aPXB9tBd4/FhyR4RDPGhsNIMsAn7g==}
+
+  counterup2@2.0.2:
+    resolution: {integrity: sha512-+drmqOOcOa17KJG9o5+wGuEgLVh4wdb2pkpGlCu3MtQ2idB73V8yJEb8WyINZ1+Fjy7dLiWKa0wihvYzk/n32A==}
 
   detect-libc@1.0.3:
     resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
@@ -694,6 +700,8 @@ snapshots:
   colorjs.io@0.5.2: {}
 
   core-js@3.39.0: {}
+
+  counterup2@2.0.2: {}
 
   detect-libc@1.0.3:
     optional: true

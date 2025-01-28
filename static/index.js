@@ -2607,6 +2607,82 @@
   // js/index.js
   var import_feather_icons = __toESM(require_feather(), 1);
 
+  // node_modules/.pnpm/counterup2@2.0.2/node_modules/counterup2/index.js
+  var counterUp = (el, options = {}) => {
+    const {
+      action = "start",
+      duration = 1e3,
+      delay = 16
+    } = options;
+    if (action === "stop") {
+      stopCountUp(el);
+      return;
+    }
+    stopCountUp(el);
+    if (!/[0-9]/.test(el.innerHTML)) {
+      return;
+    }
+    const nums = divideNumbers(el.innerHTML, {
+      duration: duration || el.getAttribute("data-duration"),
+      delay: delay || el.getAttribute("data-delay")
+    });
+    el._countUpOrigInnerHTML = el.innerHTML;
+    el.innerHTML = nums[0] || "&nbsp;";
+    el.style.visibility = "visible";
+    const output = function() {
+      el.innerHTML = nums.shift() || "&nbsp;";
+      if (nums.length) {
+        clearTimeout(el.countUpTimeout);
+        el.countUpTimeout = setTimeout(output, delay);
+      } else {
+        el._countUpOrigInnerHTML = void 0;
+      }
+    };
+    el.countUpTimeout = setTimeout(output, delay);
+  };
+  var counterup2_default = counterUp;
+  var stopCountUp = (el) => {
+    clearTimeout(el.countUpTimeout);
+    if (el._countUpOrigInnerHTML) {
+      el.innerHTML = el._countUpOrigInnerHTML;
+      el._countUpOrigInnerHTML = void 0;
+    }
+    el.style.visibility = "";
+  };
+  var divideNumbers = (numToDivide, options = {}) => {
+    const {
+      duration = 1e3,
+      delay = 16
+    } = options;
+    const divisions = duration / delay;
+    const splitValues = numToDivide.toString().split(/(<[^>]+>|[0-9.][,.0-9]*[0-9]*)/);
+    const nums = [];
+    for (let k = 0; k < divisions; k++) {
+      nums.push("");
+    }
+    for (let i = 0; i < splitValues.length; i++) {
+      if (/([0-9.][,.0-9]*[0-9]*)/.test(splitValues[i]) && !/<[^>]+>/.test(splitValues[i])) {
+        let num = splitValues[i];
+        const symbols = [...num.matchAll(/[.,]/g)].map((m) => ({ char: m[0], i: num.length - m.index - 1 })).sort((a, b) => a.i - b.i);
+        num = num.replace(/[.,]/g, "");
+        let k = nums.length - 1;
+        for (let val = divisions; val >= 1; val--) {
+          let newNum = parseInt(num / divisions * val, 10);
+          newNum = symbols.reduce((num2, { char, i: i2 }) => {
+            return num2.length <= i2 ? num2 : num2.slice(0, -i2) + char + num2.slice(-i2);
+          }, newNum.toString());
+          nums[k--] += newNum;
+        }
+      } else {
+        for (let k = 0; k < divisions; k++) {
+          nums[k] += splitValues[i];
+        }
+      }
+    }
+    nums[nums.length] = numToDivide.toString();
+    return nums;
+  };
+
   // node_modules/.pnpm/@popperjs+core@2.11.8/node_modules/@popperjs/core/lib/index.js
   var lib_exports = {};
   __export(lib_exports, {
@@ -7767,6 +7843,8 @@
 
   // js/index.js
   import_feather_icons.default.replace();
+  var counterElements = document.querySelectorAll(".counter");
+  counterElements.forEach((el) => counterup2_default(el, { duration: 500 }));
 })();
 /*! Bundled license information:
 
