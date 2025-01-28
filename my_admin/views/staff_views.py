@@ -29,7 +29,7 @@ class CreateStaffView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-staff')
 
     extra_context = {
-        "title": "Staff"
+        "title": "Add New Staff"
     }
 
 class UpdateStaffView(AddExtraContextMixin, UpdateView):
@@ -39,7 +39,7 @@ class UpdateStaffView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-staff')
 
     extra_context = {
-        "title": "Staff"
+        "title": "Update Staff"
     }
 
 class DeleteStaffView(AddExtraContextMixin, DeleteView):
@@ -48,5 +48,5 @@ class DeleteStaffView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-staff')
 
     extra_context = {
-        "title": "Staff"
+        "title": "Delete Staff"
     }

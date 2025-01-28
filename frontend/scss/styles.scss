@@ -1,11 +1,17 @@
 // GLOBAL
 
 $font-family-base: "Public Sans";
-$primary: #00a3d4;
-$secondary: #2f4858;
-$success: #12b886;
-$body-color: #191c1f;
-$info: #f06c9b;
+
+$primary: #047edf;
+$secondary: #3e4b5b;
+$success: #07cdae;
+$info: #12b886;
+$danger: #fe7096;
+$warning: #9a55ff;
+$dark: #3e4b5b;
+$light: #e4e4e9;
+
+$body-color: $secondary;
 
 $card-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
 
@@ -56,6 +62,18 @@ header select {
   font-size: 14px !important;
 }
 
+// PILLS
+
+$nav-pills-border-radius: 2px;
+$nav-link-padding-y: 0.8rem;
+$nav-link-padding-x: 1.6rem;
+$nav-pills-link-active-color: #fff;
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: $nav-pills-link-active-color !important;
+}
+
 // Breadcrumb
 
 $breadcrumb-divider: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='8' height='8'><path d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='#77878F'/></svg>");
@@ -81,6 +99,11 @@ $modal-footer-border-color: transparent;
   margin: 0 !important;
 }
 
+// CARD
+$card-border-radius: 2px;
+$card-box-shadow: $card-shadow;
+$card-border-color: transparent;
+
 // ALERTS
 
 $alert-border-radius: 2px;
@@ -91,6 +114,7 @@ $dropdown-border-radius: 4px;
 $dropdown-item-padding-y: 10px;
 $dropdown-border-color: transparent;
 $dropdown-divider-bg: #e9ecef;
+$caret-width: 0;
 .dropdown-menu.show {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12) !important;
 }
@@ -128,6 +152,10 @@ $pagination-focus-bg: transparent;
 
 // RESET
 
+body {
+  background-color: #f2f8ff !important;
+}
+
 ul {
   list-style: none;
 }
@@ -159,6 +187,10 @@ ul {
   align-items: center;
 }
 
+strong {
+  font-weight: 600 !important;
+}
+
 .mt-6 {
   margin-top: 40px !important;
 }
@@ -167,17 +199,45 @@ ul {
   padding-bottom: 40px !important;
 }
 
+.p-6 {
+  padding: 40px;
+}
+
 .bg-light-gray {
   background-color: #f2f4f5;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(to right, #90caf9, #047edf 99%) !important;
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(to right, #ffbf96, #fe7096) !important;
+}
+
+.bg-gradient-success {
+  background: linear-gradient(to right, #84d9d2, #07cdae) !important;
+}
+
+.bg-gradient-warning {
+  background: linear-gradient(to right, #f6e384, #ffd500) !important;
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(89deg, #5e7188, #3e4b5b) !important;
+}
+
+.bg-gradient-light {
+  background: linear-gradient(to bottom, #f4f4f4, #e4e4e9) !important;
 }
 
 // TABLE
 
 .table-container {
-  border: 1px solid #e4e7e9;
   margin-top: 40px;
   align-self: center;
   border-radius: 4px;
+  background-color: #fff;
 }
 
 .admin-search .form-control {
@@ -190,16 +250,17 @@ table {
 }
 
 thead tr {
-  background-color: #e4e7e9 !important;
+  background-color: $primary !important;
   font-size: 12px;
   text-transform: uppercase;
-  color: #475156;
+  color: #fff;
   border-top: 1px solid #e4e7e9;
   border-bottom: 1px solid #e4e7e9;
 }
 
 table tr {
   display: flex;
+  align-items: center;
 }
 
 table th,
@@ -208,15 +269,19 @@ td {
 }
 
 thead tr th {
-  padding: 14px 24px;
+  padding: 16px 32px;
 }
 
 tbody tr {
   font-size: 14px;
 }
 
+tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
 tbody tr td {
-  padding: 14px 24px;
+  padding: 16px 32px;
   color: #5f6c72;
 }
 
@@ -244,8 +309,8 @@ table .dropdown-item:active {
 
 .auth__form {
   width: 424px;
-  box-shadow: $card-shadow;
   margin-top: 100px;
+  background-color: #fff;
 }
 
 .auth__form.register-form {

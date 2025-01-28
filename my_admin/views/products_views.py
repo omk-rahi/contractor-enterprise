@@ -29,7 +29,8 @@ class DetailProductView(AddExtraContextMixin, View):
             "image_count": ProductImage.objects.filter(product=pk).count(),
             "option_count": ProductOption.objects.filter(product=pk).count(),
             "specs_count": Specification.objects.filter(product=pk).count(),
-            "reviews_count": 0
+            "reviews_count": 0,
+            "title": object.name
         }
 
         return render(request, template_name=template_name, context={"object": object, "extra" : extra_context}) 
@@ -44,7 +45,7 @@ class CreateProductView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-product')
 
     extra_context = {
-        "title": "Product"
+        "title": "Add New Product"
     }
 
 class UpdateProductView(AddExtraContextMixin, UpdateView):
@@ -54,7 +55,7 @@ class UpdateProductView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-product')
 
     extra_context = {
-        "title": "Product"
+        "title": "Update Product"
     }
 
 class DeleteProductView(AddExtraContextMixin, DeleteView):
@@ -63,6 +64,6 @@ class DeleteProductView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-product')
 
     extra_context = {
-        "title": "Product"
+        "title": "Delete Product"
     }
 

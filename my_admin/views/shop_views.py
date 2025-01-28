@@ -15,6 +15,8 @@ class ShopOverview(AddExtraContextMixin, View):
             "brand_count": Brand.objects.all().count(),
             "product_type_count": ProductType.objects.all().count(),
             "category_count": Category.objects.all().count(),
+            "disable_create": True,
+            "title": "Shop Overview"
         }
 
         return render(request, template_name=template_name, context={"extra" : extra_context}) 

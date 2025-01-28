@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm, SetPasswordForm
 
 from .models import CustomUser, OTP
 
@@ -26,4 +26,12 @@ class VerifyForm(forms.ModelForm):
         model = OTP
         fields = ['code']
 
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
+    new_password2 = forms.CharField(widget=forms.PasswordInput, label="New password confirmation")
     
+class CustomSetPasswordForm(SetPasswordForm):
+    new_password1 = forms.CharField(widget=forms.PasswordInput, label="New Password")
+    new_password2 = forms.CharField(widget=forms.PasswordInput, label="New password confirmation")

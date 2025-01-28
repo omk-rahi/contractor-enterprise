@@ -20,11 +20,11 @@
   <body>
     <!-- NAVBAR -->
     <header>
-      <nav class="navbar bg-secondary">
+      <nav class="navbar bg-gradient-secondary">
         <div class="container">
           <a class="navbar-brand" href="/">
-            <img src="{% static "images/logo.png" %}" alt="Brand Logo"
-            height="42" />
+            <img src="{% static "images/logo.svg" %}" alt="Brand Logo"
+            height="58" />
           </a>
 
           <form class="w-50" role="search">
@@ -106,7 +106,7 @@
         </div>
       </nav>
 
-      <div class="border-bottom py-2">
+      <div class="border-bottom py-2 bg-white">
         <div class="container">
           <ul class="nav align-items-center">
             <li class="nav-item">
@@ -147,7 +147,7 @@
 
     {% if not breadcrumbs|length == 0 %}
 
-    <div class="bg-light-gray">
+    <div class="bg-white">
       <div class="container py-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">

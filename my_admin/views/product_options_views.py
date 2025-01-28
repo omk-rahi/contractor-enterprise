@@ -28,7 +28,7 @@ class CreateProductOptionsView(AddExtraContextMixin, CreateView):
     
 
     extra_context = {
-        "title": "Product Option"
+        "title": "Add New Product Option"
     }
 
     def get_initial(self):
@@ -55,7 +55,7 @@ class UpdateProductOptionsView(AddExtraContextMixin, UpdateView):
     fields = "__all__"
 
     extra_context = {
-        "title": "Product Option"
+        "title": "Update Product Option"
     }
 
     def get_initial(self):
@@ -81,7 +81,7 @@ class DeleteProductOptionsView(AddExtraContextMixin, DeleteView):
     template_name = "my_admin/delete-template.html"
 
     extra_context = {
-        "title": "Product Option"
+        "title": "Delete Product Option"
     }
 
     

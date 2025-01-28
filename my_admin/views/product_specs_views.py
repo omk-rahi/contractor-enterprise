@@ -28,7 +28,7 @@ class CreateProductSpecsView(AddExtraContextMixin, CreateView):
     
 
     extra_context = {
-        "title": "Product Specs"
+        "title": "Add New Product Specs"
     }
 
     def get_initial(self):
@@ -55,7 +55,7 @@ class UpdateProductSpecsView(AddExtraContextMixin, UpdateView):
     fields = "__all__"
 
     extra_context = {
-        "title": "Product Specs"
+        "title": "Update Product Specs"
     }
 
     def get_initial(self):
@@ -81,7 +81,7 @@ class DeleteProductSpecsView(AddExtraContextMixin, DeleteView):
     template_name = "my_admin/delete-template.html"
 
     extra_context = {
-        "title": "Product Specs"
+        "title": "Delete Product Specs"
     }
 
     

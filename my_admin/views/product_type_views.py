@@ -23,7 +23,7 @@ class CreateProductTypeView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-product-type')
 
     extra_context = {
-        "title": "Product Type"
+        "title": "Add New Product Type"
     }
 
 class UpdateProductTypeView(AddExtraContextMixin, UpdateView):
@@ -33,7 +33,7 @@ class UpdateProductTypeView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-product-type')
 
     extra_context = {
-        "title": "Product Type"
+        "title": "Update Product Type"
     }
 
 class DeleteProductTypeView(AddExtraContextMixin, DeleteView):
@@ -42,5 +42,5 @@ class DeleteProductTypeView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-product-type')
 
     extra_context = {
-        "title": "Product Type"
+        "title": "Delete Product Type"
     }

@@ -16,7 +16,10 @@ class ServicesOverview(AddExtraContextMixin, View):
             "services_count": Service.objects.all().count(),
             "quotes_count": Quote.objects.all().count(),
             "bookings_count": 0,
-            "feedbacks_count": 0
+            "feedbacks_count": 0,
+            "disable_create": True,
+            "title": "Services Overview"
+
         }
 
         return render(request, template_name=template_name, context={"extra" : extra_context}) 
@@ -42,7 +45,7 @@ class CreateServiceView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-service')
 
     extra_context = {
-        "title": "Service"
+        "title": "Add New Service"
     }
 
 class UpdateServiceView(AddExtraContextMixin, UpdateView):
@@ -52,7 +55,7 @@ class UpdateServiceView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-service')
 
     extra_context = {
-        "title": "Service"
+        "title": "Update Service"
     }
 
 class DeleteServiceView(AddExtraContextMixin, DeleteView):
@@ -61,5 +64,5 @@ class DeleteServiceView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-service')
 
     extra_context = {
-        "title": "Service"
+        "title": "Delete Service"
     }

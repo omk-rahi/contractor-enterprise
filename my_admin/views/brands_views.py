@@ -24,7 +24,7 @@ class CreateBrandView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-brand')
 
     extra_context = {
-        "title": "Brand"
+        "title": "Add New Brand"
     }
 
 class UpdateBrandView(AddExtraContextMixin, UpdateView):
@@ -34,7 +34,7 @@ class UpdateBrandView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-brand')
 
     extra_context = {
-        "title": "Brand"
+        "title": "Update Brand"
     }
 
 class DeleteBrandView(AddExtraContextMixin, DeleteView):
@@ -43,5 +43,5 @@ class DeleteBrandView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-brand')
 
     extra_context = {
-        "title": "Brand"
+        "title": "Delete Brand"
     }

@@ -1,30 +1,20 @@
 {% extends "admin-base.html" %} {%load crispy_forms_tags %} {% block main %}
 
-<div class="center">
-  <div class="w-100 border-bottom p-3 admin-search">
-    <div class="container">
-      <p class="text-uppercase mb-0 fs-7 fw-medium col-8">
-        Delete {{extra.title}}
-      </p>
+<div class="card p-6 mt-6">
+  <form method="post" enctype="multipart/form-data">
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+
+    {% csrf_token %} {{form|crispy}}
+
+    <div class="d-flex items-center gap-3 mt-4">
+      <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+      <button
+        type="submit"
+        class="btn btn-danger text-white text-uppercase m-0 d-flex justify-content-center align-items-center gap-1"
+      >
+        Yes, Delete&nbsp;<i data-feather="trash" width="16" height="16"></i>
+      </button>
     </div>
-  </div>
-
-  <div class="container px-4 mt-6">
-    <form method="post" enctype="multipart/form-data">
-      <p>Are you sure you want to delete "{{ object }}"?</p>
-
-      {% csrf_token %} {{form|crispy}}
-
-      <div class="d-flex items-center gap-3 mt-4">
-        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-        <button
-          type="submit"
-          class="btn btn-danger text-white text-uppercase m-0 d-flex justify-content-center align-items-center gap-1"
-        >
-          Yes, Delete&nbsp;<i data-feather="trash" width="16" height="16"></i>
-        </button>
-      </div>
-    </form>
-  </div>
-  {% endblock %}
+  </form>
 </div>
+{% endblock %}

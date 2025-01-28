@@ -29,7 +29,7 @@ class CreateProductImageView(AddExtraContextMixin, CreateView):
     
 
     extra_context = {
-        "title": "Product Image"
+        "title": "Add New Product Image"
     }
 
     def get_initial(self):
@@ -56,7 +56,7 @@ class UpdateProductImageView(AddExtraContextMixin, UpdateView):
     fields = "__all__"
 
     extra_context = {
-        "title": "Product Image"
+        "title": "Update Product Image"
     }
 
     def get_initial(self):
@@ -82,7 +82,7 @@ class DeleteProductImageView(AddExtraContextMixin, DeleteView):
     template_name = "my_admin/delete-template.html"
 
     extra_context = {
-        "title": "Product Image"
+        "title": "Delete Product Image"
     }
 
     

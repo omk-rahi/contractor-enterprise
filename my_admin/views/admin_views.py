@@ -18,6 +18,8 @@ class DashBoardView(AddExtraContextMixin, View):
             "staff_count": CustomUser.objects.filter(role="staff").count(),
             "order_count": Order.objects.all().count(),
             "payment_count": Payment.objects.all().count(),
+            "disable_create": True,
+            "title": "Dashboard"
         }
 
         return render(request, template_name=template_name, context={"extra" : extra_context}) 
@@ -30,7 +32,8 @@ class UpdateAdminView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/dashboard')
 
     extra_context = {
-        "title": "Settings"
+        "title": "Settings",
+        "disable_create": True,
     }
 
     def get_object(self):

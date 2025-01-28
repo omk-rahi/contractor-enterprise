@@ -20,16 +20,15 @@
   <body>
     <main class="d-flex flex-nowrap" style="height: 100dvh">
       <div
-        class="d-flex flex-column flex-shrink-0 p-3 bg-secondary h-100"
+        class="d-flex flex-column flex-shrink-0 p-3 bg-gradient-secondary border-end h-100"
         style="width: 280px"
       >
         <a href="{% url 'admin/dashboard' %}" class="center-x">
-          <img src="{% static "images/logo.png" %}" alt="Brand Logo"></a
+          <img src="{% static "images/logo.svg" %}" alt="Brand Logo"
+          width="150"></a
         >
 
-        <div class="text-primary">
-          <hr />
-        </div>
+        <span class="d-block border-bottom my-4"></span>
 
         <ul class="nav nav-pills flex-column mb-auto gap-2">
           <li class="nav-item">
@@ -70,58 +69,105 @@
           </li>
         </ul>
 
-        <div class="text-primary">
-          <hr />
-        </div>
+        <span class="d-block border-bottom my-4"></span>
 
-        <div class="dropdown">
-          <a
-            href="#"
-            class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            {% if user.profile_image %}
-            <img
-              src="/media/{{user.profile_image}}"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />
-            {% else %}
-            <img
-              src="{% static 'images/user.png' %}"
-              alt=""
-              width="32"
-              height="32"
-              class="rounded-circle me-2"
-            />
-            {% endif %}
-            <strong>{{user.fullname}}</strong>
-          </a>
-          <ul class="dropdown-menu text-small shadow">
-            <li>
-              <a class="dropdown-item" href="{% url 'password_change' %}">
-                <i data-feather="key" width="20" height="20"></i>&nbsp; Change
-                Password</a
-              >
-            </li>
-            <li>
-              <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="dropdown-item">
-                  <i data-feather="log-out" width="20" height="20"></i>&nbsp;
-                  Log out
-                </button>
-              </form>
-            </li>
-          </ul>
-        </div>
+        <p class="text-center text-white fs-7">
+          &copy; {% now "Y" %} Contractor Enterprise IT Solutions.
+        </p>
       </div>
 
       <div class="flex-fill h-100 overflow-auto pb-6">
-        {% block main %}{% endblock %}
+        <div class="center bg-white border-bottom admin-header">
+          <div class="w-100 p-3 admin-search">
+            <div class="container row align-items-center mx-auto">
+              <p class="text-uppercase mb-0 fs-6 fw-semibold col-6">
+                {{extra.title}}
+              </p>
+              <div
+                class="col-6 d-flex justify-content-end gap-4 align-items-center"
+              >
+                {% if not extra.disable_create %}
+                <a
+                  href="./create"
+                  class="btn btn-primary text-uppercase text-white d-flex align-items-center"
+                >
+                  Add New&nbsp;<i data-feather="plus" width="20"></i>
+                </a>
+                {% endif %}
+
+                <div class="dropdown">
+                  <a
+                    href="#"
+                    class="d-flex align-items-center text-body text-decoration-none dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    {% if user.profile_image %}
+                    <img
+                      src="/media/{{user.profile_image}}"
+                      alt=""
+                      width="42"
+                      height="42"
+                      class="rounded-circle me-2"
+                    />
+                    {% else %}
+                    <img
+                      src="{% static 'images/user.png' %}"
+                      alt=""
+                      width="42"
+                      height="42"
+                      class="rounded-circle me-2"
+                    />
+                    {% endif %}
+                  </a>
+                  <ul class="dropdown-menu text-small shadow">
+                    <li>
+                      <a
+                        class="dropdown-item"
+                        href="{% url 'password_change' %}"
+                      >
+                        <i data-feather="key" width="20" height="20"></i>&nbsp;
+                        Change Password</a
+                      >
+                    </li>
+                    <li>
+                      <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="dropdown-item">
+                          <i data-feather="log-out" width="20" height="20"></i
+                          >&nbsp; Log out
+                        </button>
+                      </form>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% if not breadcrumbs|length == 1 %}
+
+        <div class="bg-white">
+          <div class="container p-3">
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb mb-0">
+                {% for breadcrumb in breadcrumbs %}
+                <li
+                  class="breadcrumb-item {% if breadcrumb.active %}active{% endif %}"
+                >
+                  <a
+                    href="{{breadcrumb.url}}"
+                    class="fs-7 link-underline link-underline-opacity-0"
+                    >{{breadcrumb.name}}</a
+                  >
+                </li>
+                {% endfor %}
+              </ol>
+            </nav>
+          </div>
+        </div>
+        {% endif %}
+        <div class="container">{% block main %}{% endblock %}</div>
       </div>
     </main>
 

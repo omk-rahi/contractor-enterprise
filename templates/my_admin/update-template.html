@@ -1,28 +1,17 @@
 {% extends "admin-base.html" %} {%load crispy_forms_tags %} {% block main %}
+<div class="card p-6 mt-6">
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %} {{form|crispy}}
 
-<div class="center">
-  <div class="w-100 border-bottom p-3 admin-search">
-    <div class="container">
-      <p class="text-uppercase mb-0 fs-7 fw-medium col-8">
-        Update {{extra.title}}
-      </p>
+    <div class="d-flex items-center gap-3 mt-4">
+      <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+      <button
+        type="submit"
+        class="btn btn-primary text-white text-uppercase m-0 d-flex justify-content-center align-items-center gap-1"
+      >
+        Update&nbsp;<i data-feather="save" width="16" height="16"></i>
+      </button>
     </div>
-  </div>
-
-  <div class="container px-4 mt-6">
-    <form method="post" enctype="multipart/form-data">
-      {% csrf_token %} {{form|crispy}}
-
-      <div class="d-flex items-center gap-3 mt-4">
-        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
-        <button
-          type="submit"
-          class="btn btn-primary text-white text-uppercase m-0 d-flex justify-content-center align-items-center gap-1"
-        >
-          Update&nbsp;<i data-feather="save" width="16" height="16"></i>
-        </button>
-      </div>
-    </form>
-  </div>
-  {% endblock %}
+  </form>
 </div>
+{% endblock %}

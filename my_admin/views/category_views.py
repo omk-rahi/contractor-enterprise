@@ -23,7 +23,7 @@ class CreateCategoryView(AddExtraContextMixin, CreateView):
     success_url = reverse_lazy('admin/list-category')
 
     extra_context = {
-        "title": "Category"
+        "title": "Add New Category"
     }
 
 class UpdateCategoryView(AddExtraContextMixin, UpdateView):
@@ -33,7 +33,7 @@ class UpdateCategoryView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-category')
 
     extra_context = {
-        "title": "Category"
+        "title": "Update Category"
     }
 
 class DeleteCategoryView(AddExtraContextMixin, DeleteView):
@@ -42,5 +42,5 @@ class DeleteCategoryView(AddExtraContextMixin, DeleteView):
     success_url = reverse_lazy('admin/list-category')
 
     extra_context = {
-        "title": "Category"
+        "title": "Delete Category"
     }
