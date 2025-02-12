@@ -40,3 +40,14 @@ class OTP(models.Model):
 
     def is_valid(self):
         return now() < self.expires_at
+    
+
+class Address(models.Model):
+    address_line = models.CharField(max_length=255)
+    pincode = models.CharField(max_length=6)
+    city = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name="address")
+
+    def __str__(self):
+        return f"{self.address_line}, {self.city} - {self.pincode}, {self.state}"

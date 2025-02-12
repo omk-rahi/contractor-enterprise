@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% load static %} {% block main %}
+
+<div class="mt-6">
+  <div class="mt-6 py-4">
+    <div class="text-center">
+      <img src="{% static "images/CheckCircle.png" %}" alt="Success Image">
+    </div>
+    <h5 class="text-center mt-2">Payment Successful! 🎉</h5>
+    <p class="fw-light text-center fs-7 text-body-secondary">
+      Thank you for your purchase! Your payment has been processed successfully.
+    </p>
+
+    <div class="d-flex gap-4 justify-content-center mt-6">
+      <a
+        href="{% url 'home' %}" 
+        class="btn btn-outline-primary text-uppercase link-underline link-underline-opacity-0 d-flex gap-2 align-items-center"
+        ><i data-feather="home" width="24"></i>Go to home</a
+      >
+      <a
+        href="/accounts/login"
+        class="btn btn-primary text-white text-uppercase link-underline link-underline-opacity-0 gap-2 align-items-center"
+        >View orders <i data-feather="arrow-right"></i></a
+      >
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

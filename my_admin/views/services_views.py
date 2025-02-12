@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import View, ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
-from services.models import Service, Quote
+from services.models import Service, Quote, Booking, Feedback
 
 # Create your views here.
 
@@ -15,15 +15,14 @@ class ServicesOverview(AddExtraContextMixin, View):
         extra_context = {
             "services_count": Service.objects.all().count(),
             "quotes_count": Quote.objects.all().count(),
-            "bookings_count": 0,
-            "feedbacks_count": 0,
+            "bookings_count": Booking.objects.count(),
+            "feedbacks_count": Feedback.objects.count(),
             "disable_create": True,
-            "title": "Services Overview"
+            "title": "Services Overview",
 
         }
 
         return render(request, template_name=template_name, context={"extra" : extra_context}) 
-
 
         
 
@@ -34,7 +33,9 @@ class ListServiceView(AddExtraContextMixin, ListView):
     ordering = ['id']
     extra_context = {
         "title": "Services",
-        "fields": [field.name for field in Service._meta.get_fields() if not field.is_relation]
+        "fields": [field.name for field in Service._meta.get_fields() if not field.is_relation],
+        "allow_view_detail": True
+
     }
 
 

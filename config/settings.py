@@ -84,7 +84,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 "django.template.context_processors.media",
-                'utils.context_processors.breadcrumb_context'
+                'utils.context_processors.breadcrumb_context',
+                'utils.context_processors.category_context'
             ],
         },
     },
@@ -186,3 +187,12 @@ EMAIL_HOST_USER = '3330bbce30dc12'
 EMAIL_HOST_PASSWORD = '289996632a74c1'  
 
 
+
+# PAYMENT
+
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+
+BACKEND_DOMAIN="http://127.0.0.1:8000"
+PAYMENT_SUCCESS_URL="http://127.0.0.1:8000/shop/payment/success"
+PAYMENT_CANCEL_URL="http://127.0.0.1:8000/shop/payment/cancel"

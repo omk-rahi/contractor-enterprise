@@ -17,7 +17,7 @@
 
     <link rel="stylesheet" href="{% static "index.css" %}">
   </head>
-  <body>
+  <body class="admin-body">
     <main class="d-flex flex-nowrap" style="height: 100dvh">
       <div
         class="d-flex flex-column flex-shrink-0 p-3 bg-gradient-secondary border-end h-100"
@@ -119,6 +119,7 @@
                       class="rounded-circle me-2"
                     />
                     {% endif %}
+                    <strong>&nbsp;{{user.fullname}}</strong>
                   </a>
                   <ul class="dropdown-menu text-small shadow">
                     <li>

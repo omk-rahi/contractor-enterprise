@@ -4,7 +4,6 @@ from .category_views import *
 from .customer_views import *
 from .product_images_views import *
 from .product_specs_views import *
-from .product_type_views import *
 from .products_views import *
 from .services_views import *
 from .shop_views import *

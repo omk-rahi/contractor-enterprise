@@ -1,0 +1,138 @@
+{% extends "base.html" %} {% load times %} {% block main %} 
+
+    {% if not object_list %}
+        <div
+        class="p-4 mt-6 d-flex justify-content-center flex-column align-items-center gap-3"
+        >
+            <i data-feather="frown" width="64" height="64"></i>
+            <h3 class="m-0">No Results Found</h3>
+            <p>We couldn't find any matches for your search. Try using different keywords or browse our categories.</p>
+        </div>
+    {% else %}
+    <div class="container">
+        
+        <div class="d-flex justify-content-between gap-4 mt-6">
+            <button class="btn border fs-6" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
+                <i data-feather="filter" width="20" height="20"></i>
+                Filter
+            </button>
+            
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="filterSidebar" aria-labelledby="filterSidebarLabel">
+                <div class="offcanvas-header d-flex justify-content-between">
+                    <h5 class="offcanvas-title" id="filterSidebarLabel">Choose filter</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <form method="get">
+                        {% for key, value in request.GET.items %}
+                            {% if key != "page" %}
+                                <input type="hidden" name="{{ key }}" value="{{ value }}">
+                            {% endif %}
+                        {% endfor %}
+                        <div>
+                            <h6 class="mb-3 text-uppercase">Categories</h6>
+
+                            {% for category in categories %}
+                            <div class="form-check mb-2 ">
+                                <input class="form-check-input" type="radio" name="category" id="{{category}}" value={{category}}>
+                                <label class="form-check-label" for="{{category}}">
+                                    {{category}}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    <div class="mt-6">
+                        <h6 class="mb-3 text-uppercase">Brands</h6>
+                        
+                        <div class="row row-cols-2">
+                            {% for brand in brands %}
+                            <div class="form-check mb-2 ">
+                                <input class="form-check-input" type="checkbox" name="brand" id="{{brand}}" value={{brand}}>
+                                <label class="form-check-label" for="{{brand}}">
+                                    {{brand}}
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <button class="btn btn-primary text-white text-uppercase mt-4 w-100">Apply Filter</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+            <form class="d-flex align-items-center" style="width: 300px;" method="get" id="sort-form">
+                {% for key, value in request.GET.items %}
+                    {% if key != "page" %}
+                        <input type="hidden" name="{{ key }}" value="{{ value }}">
+                    {% endif %}
+                {% endfor %}
+                <label for="sortBy" class="w-50">Sort By:</label>
+                <select class="form-select" aria-label="Sort by" id="sortBy" name="sort" onchange="document.getElementById('sort-form').submit();">
+                    <option value="popular" {% if request.GET.sort == "popular" %}selected{% endif %}>Most Popular</option>
+                    <option value="name" {% if request.GET.sort == "name" %}selected{% endif %}>Name</option>
+                    <option value="-price" {% if request.GET.sort == "-price" %}selected{% endif %}>Highest Price</option>
+                    <option value="price" {% if request.GET.sort == "price" %}selected{% endif %}>Lowest Price</option>
+                </select>
+            </form>
+        </div>
+
+        <div class="my-6">
+            <div class="shop-grid m-0">
+                {% for object in object_list  %}
+                <a href="./{{object.id}}" class="g-col-4 m-0 card border p-4 link-underline link-underline-opacity-0 default-border-radius">
+                    {% if object.image %}
+                    <div class="center-x">
+                            <img src="{{object.image}}" alt="Image of {{object.name}}" width="200px" height="152px" class="product-image">
+                        </div>
+                        {% endif %}
+                        
+                    <div class="reviews mt-4">
+                        {% for _ in object.rating.rating|times %}
+                        <i data-feather="star" class="star"></i>
+                        {% endfor %}
+                        {% for _ in object.rating.remain|times  %}
+                        <i data-feather="star"></i>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="mt-2">
+                        <h6>{{object.name}}</h6>
+                        <h5 class="text-primary">₹{{object.price}}</h5>
+                    </div>
+                </a>
+                {% endfor %}    
+            </div>
+        </div>
+    </div>
+
+    
+  <div class="center mt-4">
+    <nav aria-label="...">
+      <ul class="pagination mb-4">
+        {% if page_obj.has_previous %}
+
+        <li class="page-item">
+          <a class="page-link" href="?page={{page_obj.previous_page_number}}"
+            ><i data-feather="arrow-left" width="24" height="24"></i
+          ></a>
+        </li>
+        {% endif %} {% if page_obj.has_next or page_obj.has_previous %}
+        <li class="page-item active">
+          <span class="page-link text-white">{{page_obj.number}}</span>
+        </li>
+        {% endif %} {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{page_obj.next_page_number}}"
+            ><i data-feather="arrow-right" width="24" height="24"></i
+          ></a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+  </div>
+
+
+    
+    {% endif %}
+
+    {% endblock main %}
+    

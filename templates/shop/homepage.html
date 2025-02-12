@@ -1,1 +1,67 @@
-{% extends "base.html" %} {% block main %} {{user.role}} {% endblock main %}
+{% extends "base.html" %} {% load static %} {% block main %} 
+
+<div class="container mt-4">
+    <div class="hero row">
+        <div class="col-8 bg-light default-border-radius py-4 px-5 d-flex align-items-center position-relative">
+            <div class="hero__content">
+            <span class="text-primary fw-semibold">&mdash; THE BEST PLACE TO PLAY</span> 
+            <h3 class="mt-2">Apex Series</h3>
+            <p>Elite gaming PCs delivering power, speed, precision, and immersive performance.</p>
+            <span class="fs-6 fw-bold bg-primary rounded-circle text-white hero__price">₹64000</span>
+            <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+                <span>SHOW NOW</span>
+                <i data-feather="arrow-right" width="20" height="20"></i>
+            </button>
+            </div>
+            <div class="hero__image">
+                <img src="{% static 'images/pc.png' %}" alt="Hero image">
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="d-flex align-items-center bg-gradient-secondary default-border-radius p-4 mb-2">
+                <div class="hero__content">
+                    <h5 class="mt-2 text-white">Intel Core I7-14700K</h5>
+                    <p class="text-white fw-semibold">₹3,390</p>
+                    <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+                        <span>SHOW NOW</span>
+                        <i data-feather="arrow-right" width="20" height="20"></i>
+                    </button>
+                </div>
+                <div class="hero__image">
+                    <img src="{% static 'images/pc.png' %}" alt="Hero image" height="184">
+                </div>
+            </div>
+            <div class="d-flex align-items-center bg-light default-border-radius p-4">
+                <div class="hero__image">
+                    <img src="{% static 'images/pc.png' %}" alt="Hero image" height="184">
+                </div>
+                <div class="hero__content">
+                    <h5 class="mt-2">Cosmic Byte Inferno </h5>
+                    <p class="text-primary fw-semibold">₹3,390</p>
+                    <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+                        <span>SHOW NOW</span>
+                        <i data-feather="arrow-right" width="20" height="20"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="product_types mt-8">
+        <h3 class="text-center mb-4">Shop by product types</h3>
+        
+     
+        <div class="d-flex justify-content-between">
+               {% for type in product_type %}
+                <a class="border default-border-radius text-center py-2 px-3 link-underline link-underline-opacity-0 text-body" href="/shop/?type={{type.type}}">
+                    <img src="{% static 'images/type' %}-{{ type.type }}.png" alt="" height="120" width="120">
+                    <p>{{type.type}}</p>
+                </a>
+                {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock main %}

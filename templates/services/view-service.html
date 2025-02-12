@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block main %}
+    <div class="container my-6 gap-4">
+        <div class="row">
+            <div class="col-8">
+                <h2>{{object.name}}</h2>
+                <p class="w-75">{{object.description}}</p>
+                
+                <table class="table table-secondary w-25">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Cost</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cost in object.costs.all %}
+                            <tr> 
+                                <td>{{cost.description}}</td>
+                                <td>{{cost.cost}}</td>
+                            </tr>            
+                        {% endfor %}
+                    </tbody>
+                </table>
+             
+            </div>
+            <div class="col-4">
+                <form action="{% url 'add-quote' %}" class="bg-light p-6 card" method="POST">
+                    {% csrf_token %}
+                    <h4 class="text-center">Get a Quote</h4>
+                    <label for="description" class="form-label fs-6 mt-2">Description</label>
+                    <textarea class="form-control" id="description" rows="5" name="description" required></textarea>
+                    <input type="hidden" name="service_id" value={{object.id}}>
+                    <button class="btn btn-primary text-uppercase text-white mt-4">GET QUOTE</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock main %}

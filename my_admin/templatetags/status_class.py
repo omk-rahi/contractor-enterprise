@@ -4,16 +4,16 @@ register = template.Library()
 
 @register.simple_tag
 def status_class(status):
-    if status in ['delivered', 'completed']:
+    if status.lower() in ['delivered', 'completed', 'available']:
         return 'success'
     
-    elif status in ['canceled', 'failed', 'rejected']:
+    elif status.lower() in ['canceled', 'failed', 'rejected', 'sold']:
         return 'danger'
     
-    elif status in ['in_process', 'pending']:
+    elif status.lower() in ['in_process', 'pending']:
         return 'warning'
     
-    elif status in ['confirmed']:
+    elif status.lower() in ['confirmed']:
         return 'info'
 
     else:

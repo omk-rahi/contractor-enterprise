@@ -36,10 +36,10 @@
 
         {% elif field == 'total' %}
 
-        <td>{{object.get_total_str}}</td>
+        <td class="text-secondary fw-bold">₹{{object.total}}</td>
 
-        {% elif field == 'id' %}
-        <td class="text-body">#{{object.id}}</td>
+        {% elif 'id' in field %}
+        <td class="text-secondary fw-bold">#{{object.id}}</td>
 
         {% elif field == 'date' %}
         <td>{{ object.date|date:"M d, Y H:i" }}</td>
@@ -66,7 +66,7 @@
                 >&nbsp; View Detail</a
               >
             </li>
-            {% endif %} {% if not extra.not_allow_action %}
+            {% endif %} {% if not extra.not_allow_action %} {%if not extra.disable_update %}
             <li>
               <a
                 href="./update/{{object.id}}"
@@ -75,6 +75,7 @@
                 Update</a
               >
             </li>
+            {% endif %} 
             {% if not extra.disable_delete %}
             <li>
               <a href="./delete/{{object.id}}" class="dropdown-item text-danger"
@@ -127,8 +128,8 @@
 <div
   class="p-4 mt-6 d-flex justify-content-center flex-column align-items-center gap-3"
 >
-  <img src="{% static 'images/no-data.svg' %}" alt="No data" width="300px" />
-  <p>No data found. Please add a new entry.</p>
+  <i data-feather="frown" width="64" height="64"></i>
+  <h3>No data found</h3>
 </div>
 
 {% endif %} {% endblock %}

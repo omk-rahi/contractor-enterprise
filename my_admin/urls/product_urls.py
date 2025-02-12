@@ -2,7 +2,7 @@ from django.urls import path, include
 from my_admin.views.products_views import *
 from my_admin.views.product_images_views import *
 from my_admin.views.product_specs_views import *
-from my_admin.views.product_options_views import *
+from my_admin.views.product_stock_views import *
 
 
 product_image_patterns = [
@@ -19,11 +19,13 @@ product_spec_patterns = [
     path("delete/<int:pk>/", DeleteProductSpecsView.as_view(), name="admin/delete-product-spec"),
 ]
 
-product_options_patterns = [
-    path("", ListProductOptionsView.as_view(), name="admin/list-product-option"),
-    path("create", CreateProductOptionsView.as_view(), name="admin/create-product-option"),
-    path("update/<int:pk>/", UpdateProductOptionsView.as_view(), name="admin/update-product-option"),
-    path("delete/<int:pk>/", DeleteProductOptionsView.as_view(), name="admin/delete-product-option"),
+
+
+product_stock_patterns = [
+    path("", ListProductStockView.as_view(), name="admin/list-product-stock"),
+    path("create", CreateProductStockView.as_view(), name="admin/create-product-stock"),
+    path("update/<int:pk>/", UpdateProductStockView.as_view(), name="admin/update-product-stock"),
+    path("delete/<int:pk>/", DeleteProductStockView.as_view(), name="admin/delete-product-stock"),
 ]
 
 
@@ -31,11 +33,11 @@ product_options_patterns = [
 
 product_patterns = [
     path("", ListProductView.as_view(), name="admin/list-product"),
-    path("<int:pk>/", DetailProductView.as_view(), name="admin/detail-product"),
+    path("<int:product_pk>/", DetailProductView.as_view(), name="admin/detail-product"),
     path("create/", view=CreateProductView.as_view(), name="admin/create-product"),
     path("update/<int:pk>/", view=UpdateProductView.as_view(), name="admin/update-product"),
     path("delete/<int:pk>/", view=DeleteProductView.as_view(), name="admin/delete-product"),
     path("<int:product_pk>/images/", include(product_image_patterns)),
     path("<int:product_pk>/specs/", include(product_spec_patterns)),
-    path("<int:product_pk>/options/", include(product_options_patterns)),
+    path("<int:product_pk>/stock/", include(product_stock_patterns)),
 ]

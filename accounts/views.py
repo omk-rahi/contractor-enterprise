@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import RegisterForm, VerifyForm
 from django.core.mail import send_mail
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
 from .utils import generate_and_save_otp, verify_otp
 
-from .models import CustomUser
+from .models import CustomUser, Address
+from .forms import AddressForm, UserSettingForm, CustomPasswordChangeForm
 
 # Create your views here.
 
@@ -21,7 +22,8 @@ def register(request):
 
 
         if form.is_valid():
-            form.save()
+            user = form.save()
+            Address.objects.create(user=user)
             return redirect("login")
     
     else :
@@ -70,3 +72,45 @@ def send_otp(request):
     messages.add_message(request, messages.SUCCESS, message="OTP sent to your email.")
 
     return redirect("verify")
+
+
+
+@login_required
+def user_settings(request):
+
+    address = get_object_or_404(Address, user=request.user)
+
+    context = {
+        "address_form": AddressForm(instance=address),
+        "user_form": UserSettingForm(instance=request.user),
+        "password_change_form": CustomPasswordChangeForm(request.user)
+    }
+
+    return render(request, "registration/user-settings.html", context)
+    
+@login_required
+def save_address(request):
+    if not request.POST:
+        return redirect('user-settings')
+    
+    address = get_object_or_404(Address, user=request.user)
+
+    address_form = AddressForm(request.POST, instance=address)
+
+    if address_form.is_valid():
+        address_form.save()
+        messages.success(request, "Address Updated Successfully!")
+        return redirect('user-settings')
+    
+    
+@login_required
+def save_profile(request):
+    if not request.POST:
+        return redirect('user-settings')
+    
+    profile = UserSettingForm(request.POST, request.FILES, instance=request.user)
+
+    if profile.is_valid():
+        profile.save()
+        messages.success(request, "Profile Updated Successfully!")
+        return redirect('user-settings')

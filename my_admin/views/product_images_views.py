@@ -35,16 +35,9 @@ class CreateProductImageView(AddExtraContextMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
 
-        initial["product"] = self.kwargs["product_pk"]
+        initial["product"] = Product.objects.get(id = self.kwargs["product_pk"])
 
         return initial
-    
-    
-    def form_valid(self, form):
-        
-        form.instance.product = Product.objects.get(id = self.kwargs["product_pk"])
-
-        return super().form_valid(form)
     
     def get_success_url(self):
         return reverse_lazy('admin/list-product-image', kwargs={'product_pk': self.kwargs["product_pk"]})
@@ -59,20 +52,6 @@ class UpdateProductImageView(AddExtraContextMixin, UpdateView):
         "title": "Update Product Image"
     }
 
-    def get_initial(self):
-        initial = super().get_initial()
-
-        initial["product"] = self.kwargs["product_pk"]
-
-        return initial
-    
-    
-    def form_valid(self, form):
-        
-        form.instance.product = Product.objects.get(id = self.kwargs["product_pk"])
-
-        return super().form_valid(form)
-    
     def get_success_url(self):
         return reverse_lazy('admin/list-product-image', kwargs={'product_pk': self.kwargs["product_pk"]})
     

@@ -15,7 +15,7 @@ class ListOrderView(View):
 
         extra = {
             "title": "Orders",
-            "fields" : ["id", "status", "date", "total"],
+            "fields" : ["id", "status", "date", "total", 'item_description'],
             "disable_create": True,
             "disable_delete": True,
             "allow_view_detail": True
@@ -25,17 +25,22 @@ class ListOrderView(View):
 
 
 
+class OrderDetailView(AddExtraContextMixin, DetailView):
+    model = Order
+    template_name = "my_admin/order-detail.html"
+
+    extra_context = {
+        "disable_create": True,
+        "title": "Order Detail",
+    }
+
+
 class UpdateOrderView(AddExtraContextMixin, UpdateView):
     model = Order
     template_name = "my_admin/update-template.html"
-    fields = ["status"]
+    fields = ['status']
     success_url = reverse_lazy('admin/list-order')
 
     extra_context = {
         "title": "Update Order"
     }
-
-
-class OrderDetailView(DetailView):
-    model = Order
-    template_name = "my_admin/order-detail.html"

@@ -10,7 +10,7 @@ class ListPaymentView(View):
 
         extra = {
             "title": "Payments",
-            "fields" : ["id", "status", "date", "payment_method", "total"],
+            "fields" : ["id", "status", "date", "payment_method", "total", "order_id"],
             "disable_action": True,
             "disable_create": True,
         }

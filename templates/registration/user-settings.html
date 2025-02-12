@@ -1,0 +1,64 @@
+{% extends "base.html" %}{% load static %}{% load crispy_forms_tags %} {% block main %}
+
+<div class="container my-6">
+  <div class="border px-5 py-4 default-border-radius">
+    <h5 class="text-uppercase mt-4 mb-4">Account settings</h5>
+    <form
+      action="{% url 'save-profile' %}"
+      class="d-flex gap-5"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <div class="mt-4">
+        {% if user.profile_image %}
+        <img
+          src="/media/{{user.profile_image}}"
+          alt=""
+          width="96"
+          height="96"
+          class="rounded-circle me-2 border"
+        />
+        {% else %}
+        <img
+          src="{% static 'images/user.png' %}"
+          alt=""
+          width="96"
+          height="96"
+          class="rounded-circle me-2"
+        />
+        {% endif %}
+      </div>
+      <div class="flex-fill">
+        {{user_form.fullname|as_crispy_field}}
+        <div class="row row-cols-2">
+          {{user_form.email|as_crispy_field }} 
+          {{user_form.phone|as_crispy_field}}
+        </div>
+        {{user_form.profile_image|as_crispy_field }}
+
+        <button class="btn btn-primary text-uppercase text-white my-2">
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-4 border px-5 py-4 default-border-radius">
+    <form action="{% url 'save-address' %}" method="post">
+      {% csrf_token %}
+      <h5 class="text-uppercase mt-2 mb-4">User Address</h5>
+      {{address_form.address_line|as_crispy_field }}
+      <div class="row row-cols-3">
+        {{address_form.pincode|as_crispy_field }}
+        {{address_form.city|as_crispy_field }}
+        {{address_form.state|as_crispy_field }}
+      </div>
+      <button class="btn btn-primary text-uppercase text-white my-2">
+        Save Changes
+      </button>
+    </form>
+  </div>
+</div>
+
+{% endblock main %}

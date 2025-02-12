@@ -27,25 +27,19 @@
             height="58" />
           </a>
 
-          <form class="w-50" role="search">
-            <div class="input-group">
-              <span class="input-group-text" id="basic-addon1">
-                <i data-feather="search" width="20" height="20"></i>
+          <form class="w-50" role="search" method="get" action="{% url 'shop' %}">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Search anything...." aria-label="Recipient's username" aria-describedby="basic-addon2" name="query">
+              <span class="input-group-text border-0 border-start-0 bg-white">
+                <i data-feather="search" width="24" height="24"></i>
               </span>
-
-              <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search for anything..."
-                aria-label="Search for anything..."
-              />
             </div>
           </form>
 
           <ul class="d-flex gap-4 pt-3">
             {% if user.is_authenticated %}
             <li>
-              <a href="/cart" class="text-white">
+              <a href="{% url 'view-cart' %}" class="text-white">
                 <i data-feather="shopping-cart" width="32" height="32"></i>
               </a>
             </li>
@@ -60,10 +54,19 @@
                   <i data-feather="user" width="32" height="32"></i>
                 </button>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="{% url 'list-orders' %}">
+                    <i data-feather="shopping-bag" width="20" height="20"></i>&nbsp;
+                      Orders
+                  </a></li>
+                  <li><a class="dropdown-item" href="{% url 'list-bookings' %}">
+                    <i data-feather="calendar" width="20" height="20"></i>&nbsp;
+                      Bookings
+                  </a></li>
                   <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                    <a class="dropdown-item" href="{% url 'user-settings' %}">
+                      <i data-feather="settings" width="20" height="20"></i>&nbsp;
+                      Settings
+                    </a>
                   </li>
                   <li><hr class="dropdown-divider" /></li>
                   {% if not user.is_verified %}
@@ -110,11 +113,15 @@
         <div class="container">
           <ul class="nav align-items-center">
             <li class="nav-item">
-              <form action="#">
-                <select name="" id="" class="form-select">
-                  <option>All Category</option>
-                </select>
-              </form>
+                <button class="btn dropdown-toggle border d-flex align-item-center gap-1" data-bs-toggle="dropdown" aria-expanded="false">
+                  All Category 
+                  <i data-feather="chevron-down" width="20" height="20"></i>
+                </button>
+                <ul class="dropdown-menu">
+                  {% for type in product_type %}
+                   <li><a class="dropdown-item" href="/shop/?type={{type.type}}">{{type.type}}</a></li>
+                  {% endfor %}
+                </ul>
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
@@ -147,7 +154,7 @@
 
     {% if not breadcrumbs|length == 0 %}
 
-    <div class="bg-white">
+    <div class="bg-light">
       <div class="container py-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
@@ -174,12 +181,30 @@
     </div>
     {% endif %}
 
+
+    {% if messages %}
+      {% for message in messages %}
+          {% if message.tags == 'success' %}
+              <div class='position-fixed start-50 bg-white py-3 px-4 d-flex gap-3 align-items-center custom-alert'>
+                <i data-feather="check" class="custom-alert-icon custom-alert-icon-success"></i>{{message}}
+              </div>
+          {% else %}
+            <div class='position-fixed start-50 bg-white py-3 px-4 d-flex gap-3 align-items-center custom-alert'>
+              <i data-feather="x" class="custom-alert-icon custom-alert-icon-error"></i>{{message}}
+            </div>
+          {% endif %}
+      {% endfor %}
+    {% endif %}
+
+
     <main class="center-x">{% block main %}{% endblock %}</main>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
+
+
+    <footer class="bg-gradient-secondary mt-6">
+        <p class="m-0 text-white py-4 text-center">&copy; {% now "Y" %} Contractor Enterprise IT Solutions.</p>
+    </footer>
+
+
     <script src="{% static 'index.js' %}"></script>
   </body>
 </html>

@@ -1,18 +1,19 @@
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
-from shop.models import Product, Specification
+from shop.models import Product, ProductSpec, Specification
+from shop.forms import UpdateProductSpecForm
 
 # Create your views here.
 
 class ListProductSpecsView(AddExtraContextMixin, ListView):
-    model = Specification
+    model = ProductSpec
     template_name = "my_admin/list-template.html"
     paginate_by = 5 
     ordering = ['id']
     extra_context = {
         "title": "Product Specs",
-        "fields": [field.name for field in Specification._meta.get_fields() if not field.is_relation]
+        "fields": [field.name for field in ProductSpec._meta.get_fields() if not field.is_relation]
     }
 
     
@@ -22,7 +23,7 @@ class ListProductSpecsView(AddExtraContextMixin, ListView):
 
 
 class CreateProductSpecsView(AddExtraContextMixin, CreateView):
-    model = Specification
+    model = ProductSpec
     template_name = "my_admin/create-template.html"
     fields = "__all__"
     
@@ -34,50 +35,34 @@ class CreateProductSpecsView(AddExtraContextMixin, CreateView):
     def get_initial(self):
         initial = super().get_initial()
 
-        initial["product"] = self.kwargs["product_pk"]
+        initial["product"] = Product.objects.get(id = self.kwargs["product_pk"])
 
         return initial
     
-    
-    def form_valid(self, form):
-        
-        form.instance.product = Product.objects.get(id = self.kwargs["product_pk"])
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        product = Product.objects.get(id = self.kwargs["product_pk"])
+        form.fields["specification"].queryset = Specification.objects.filter(category=product.category)
+        return form
 
-        return super().form_valid(form)
-    
     def get_success_url(self):
         return reverse_lazy('admin/list-product-spec', kwargs={'product_pk': self.kwargs["product_pk"]})
     
     
 class UpdateProductSpecsView(AddExtraContextMixin, UpdateView):
-    model = Specification
+    model = ProductSpec
     template_name = "my_admin/update-template.html"
-    fields = "__all__"
-
+    form_class = UpdateProductSpecForm
     extra_context = {
         "title": "Update Product Specs"
     }
-
-    def get_initial(self):
-        initial = super().get_initial()
-
-        initial["product"] = self.kwargs["product_pk"]
-
-        return initial
-    
-    
-    def form_valid(self, form):
-        
-        form.instance.product = Product.objects.get(id = self.kwargs["product_pk"])
-
-        return super().form_valid(form)
     
     def get_success_url(self):
         return reverse_lazy('admin/list-product-spec', kwargs={'product_pk': self.kwargs["product_pk"]})
     
 
 class DeleteProductSpecsView(AddExtraContextMixin, DeleteView):
-    model = Specification
+    model = ProductSpec
     template_name = "my_admin/delete-template.html"
 
     extra_context = {

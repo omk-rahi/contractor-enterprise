@@ -1,0 +1,96 @@
+{% extends "base.html" %} {% load static %} {% block main %}
+
+<div class="container my-6">
+  {% if not items %}
+  <div class="center-x">
+     <i data-feather="frown" width="64" height="64"></i>
+    <h4 class="mt-4">Your Cart is Empty!</h4>
+    <p class="text-center">
+      Looks like you haven't added anything yet. <br />Start shopping now and fill
+      your cart with amazing products!
+    </p>
+  </div>
+
+  {% else %}
+    <div class="row gap-4 justify-content-between align-items-start">
+            <div class="col-8  p-4">
+                <h4>Shopping Cart</h4>
+
+                <table class="product-detail-table mt-4">
+                    <thead>
+                    <tr class="bg-light">
+                        <th>PRODUCT</th>
+                        <th>NAME</th>
+                        <th>PRICE</th>
+                        <th>QUANTITY</th>
+                        <th>SUB TOTAL</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items  %}
+                        <tr>
+                            <td>
+                                <img
+                                    src="{{item.product.image}}"
+                                    alt="Image of {{extra.title}}"
+                                    height="80px"
+                                    class="default-border-radius"
+                                />
+                            </td>
+                        <td>{{item.product.name}}</td>
+                        <td>₹{{item.product.price}}</td>
+                        <td class="d-flex justify-content-center align-items-center gap-3 border default-border-radius py-2 ">
+                            <form action="{% url 'cart-minus'%}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="item_id" value={{item.id}}>
+                                <button class="btn p-1"><i data-feather="minus"></i></button>
+                            </form>
+                            <span>
+                                {{item.quantity}}
+                            </span>
+                            <form action="{% url 'cart-plus'%}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="item_id" value={{item.id}}>
+                                <button class="btn p-1"><i data-feather="plus"></i></button>
+                            </form>
+                        </td>
+                        <td>₹{{item.total}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'home' %}" class="btn btn-outline-primary mt-4 text-uppercase"><i data-feather="arrow-left" width="20"></i>&nbsp;Return to Shop</a>
+            </div>
+
+            <div class="col-3 card p-4 bg-primary bg-opacity-10">
+                <h4 class="mb-4">Cart Total</h4>
+                <p class="d-flex justify-content-between mt-1">
+                    <span>Sub Totol</span>
+                    <span>₹{{subtotal}}</span>
+                </p>
+                <p class="d-flex justify-content-between">
+                    <span>Shipping</span>
+                    {% if delivery_charge == 0 %}
+                        <span>Free</span>
+                    {% else %}
+                        <span>₹{{delivery_charge}}</span>
+                    {% endif %}
+                </p>
+                <hr>
+                 <p class="d-flex justify-content-between fw-bold">
+                    <span>Total</span>
+                    <span>₹{{total}}</span>
+                </p>
+                
+                <form action="{% url 'cart-checkout' %}" class="w-100 mt-2">
+                    {% csrf_token %}
+                    <button class="btn btn-primary text-uppercase text-white mt-2 w-100">
+                        Proceed to Checkout&nbsp;<i data-feather="arrow-right"></i></button>
+                    </button>
+                </form>
+            </div>
+        </div>
+  {% endif %}
+</div>
+
+{% endblock main %}

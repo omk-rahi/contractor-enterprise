@@ -1,0 +1,49 @@
+{% extends "admin-base.html" %} {% block main %}
+
+<div class="container mt-6">
+  <div
+    class="bg-primary p-4 default-border-radius d-flex align-items-center justify-content-between"
+  >
+    <div>
+      <p class="my-0 fs-3 text-white">#{{object.id}}</p>
+      <p class="my-0 text-white">
+        <span>{{object.service.name}}</span>&nbsp;&ndash;&nbsp;
+        <span>Service booked on {{object.booking_date|date:"M d, Y"}}</span>
+      </p>
+    </div>
+    <div>
+      <p class="fs-2 text-white my-0">₹{{object.cost}}</p>
+    </div>
+  </div>
+
+  <div class="card p-4 mt-6">
+    <div>
+      <h5>Service Address</h5>
+      <h6 class="mt-4">{{object.user.fullname}}</h6>
+      <p class="my-2">
+       {{object.user.address.address_line}},<br />
+       {{object.user.address.city}} - {{object.user.address.pincode}}<br />
+       {{object.user.address.state}}<br />
+      </p>
+
+      <p class="my-2">Phone: {{object.user.phone}}</p>
+      <p class="my-2">Email: {{object.user.email}}</p>
+    </div>
+    <span>
+      <hr />
+    </span>
+    {% if object.staff %}
+    <div>
+      <h5>Staff Assigned</h5>
+      <h6 class="mt-4">{{object.staff.fullname}}</h6>
+      <p class="my-2">Phone: {{object.staff.phone}}</p>
+      <p class="my-2">Email: {{object.staff.email}}</p>
+    </div>
+    {% else %}
+    <div>
+      <h5 class="text-danger">No Staff Assigned</h5>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock main %}

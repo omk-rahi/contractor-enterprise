@@ -1,24 +1,9 @@
 from django.db import models
-from django.core.validators import MinValueValidator
 from accounts.models import CustomUser
 
+from random import randrange
+
 # Create your models here.
-
-class ProductType(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-class Category(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    type = models.ForeignKey(ProductType, on_delete=models.CASCADE, related_name='categories')
-
-    class Meta:
-        verbose_name_plural = "Categories"
-
-    def __str__(self):
-        return self.name
 
 class Brand(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -26,62 +11,120 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
 
-class Product(models.Model):
-    name = models.CharField(max_length=100)
-    description = models.TextField(blank=False)
-    warranty_periods = models.IntegerField(validators=[MinValueValidator(1)])
-    base_price = models.PositiveBigIntegerField()
-    available_stock = models.PositiveIntegerField()
-    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, related_name="products")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+class Category(models.Model):
 
+    TYPES = [
+        ("Pre-built PC", "Pre-built PC"),
+        ("Refurbished Laptops & PC", "Refurbished Laptops & PC"),
+        ("PC Components", "PC Components"),
+        ("Monitors", "Monitors"),
+        ("CCTV Cameras", "CCTV Cameras"),
+        ("Software", "Software"),
+        ("Peripherals", "Peripherals"),
+    ]
+
+    type = models.CharField(max_length=50, choices=TYPES)
+    name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name
     
 
 class Specification(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="specs")
     key = models.CharField(max_length=100)
-    value = models.CharField(max_length=100)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="specs")
 
     def __str__(self):
-        return f"{self.key} - {self.value}"
+        return self.key
+    
 
+
+class Product(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=False)
+    warranty_periods = models.PositiveIntegerField()
+    price = models.PositiveIntegerField()
+    brand = models.ForeignKey(Brand, on_delete=models.DO_NOTHING, related_name="products")
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="products")
+
+    @property
+    def image(self):
+        url = self.images.filter(is_primary=True).first().image.url
+        if url:
+            return url
+        return None
+    
+    @property
+
+    def rating(self):
+        rate = 3
+        return {"rating": rate, "remain": 5 - rate}
+
+    @property
+    def available_stock(self):
+        return self.stocks.filter(status="available").count()
+
+    def __str__(self):
+        return self.name
+    
+
+class ProductSpec(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="specs")
+    specification = models.ForeignKey(Specification, on_delete=models.CASCADE)
+    value = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"{self.product.name} - {self.specification.key}: {self.value}"
+    
 
 class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
     image = models.ImageField(upload_to='products/')
     is_primary = models.BooleanField(default=False)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
 
     def __str__(self):
-        return f"Image of {self.product.name}"
+                return f"Image of {self.product.name}"
+
     
+class ProductStock(models.Model):
 
-class ProductOption(models.Model):
-
-    OPTIONS = [
-        ("Size", "Size"),
-        ("Color", "Color"),
-        ("Capacity", "Capacity"),
-        ("Speed", "Speed"),
-        ("Type", "Type"),
-
+    STATUS = [
+        ('available', 'Available'),
+        ('freeze', 'Freeze'),
+        ('sold', 'Sold'),
     ]
 
-    option = models.CharField(max_length=20, choices=OPTIONS)
-    value = models.CharField(max_length=20)
-    price = models.PositiveIntegerField()
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="options")
 
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="stocks")
+    serial_number =  models.CharField(max_length=50, unique=True)
+    status = models.CharField(max_length=10, choices=STATUS, default='available')
+
+
+    def __str__(self):
+        return f"{self.product.name} - {self.serial_number} - {self.status}"
+
+
+class Cart(models.Model):
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="cart")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()
+
+    @property
+    def total(self):
+        return self.product.price * self.quantity
     
+    def __str__(self):
+        return f"{self.user} | {self.product.name} | {self.quantity}"
 
 class Order(models.Model):
 
     STATUS = [
             ('created', 'Created'), 
             ('confirmed', 'Confirmed'), 
-            ('in_process', 'In Process'),
             ('canceled', 'Canceled'),
             ('delivered', 'Delivered'),
         ]
@@ -92,22 +135,36 @@ class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="user_orders")
     date = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def total(self):
+        total = 0
+
+        for item in self.items.all():
+            total += item.subtotal
+
+        if total < 500:
+            total += 40
+
+        return total
+    
+    @property
+    def item_description(self):
+        return "TEST"
 
     def __str__(self):
-        return f"Order from {self.user}"
-    
-    def get_total_str(self):
-        return '₹800 (5 Products)'
+        return f"Order from {self.user}"    
     
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING, related_name="product")
-    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING, related_name="orders")
-    quantity = models.PositiveIntegerField()
-    price = models.PositiveBigIntegerField()
+    product = models.ForeignKey(Product, on_delete=models.DO_NOTHING)
+    order = models.ForeignKey(Order, on_delete=models.DO_NOTHING, related_name="items")
+    sku = models.ForeignKey(ProductStock, on_delete=models.DO_NOTHING)
 
+    @property
+    def subtotal(self):
+        return 1 * self.product.price
     
     def __str__(self):
-        return f"{self.product.name} | {self.quantity} | ₹{self.price}"
+        return f"{self.product.name} | {self.product.price}"
 
 
 class Payment(models.Model):
@@ -115,7 +172,7 @@ class Payment(models.Model):
     STATUS = [
         ('pending', 'Pending'), 
         ('completed', 'Completed'), 
-        ('failed', 'Failed'),
+        ('failed', 'Failed'),   
         ('rejected', 'Rejected'),
     ]
 
@@ -125,11 +182,20 @@ class Payment(models.Model):
         ]
 
 
-    amount = models.PositiveIntegerField()
+    @property
+    def total(self):
+        return self.order.total
+    
+
     payment_method = models.CharField(max_length=20, choices=METHOD)
     status = models.CharField(max_length=20, choices=STATUS)
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payment")
     date = models.DateTimeField(auto_now_add=True)
 
-    def get_total_str(self):
-        return '₹800'
+    def __str__(self):
+        return f"{self.date} | {self.payment_method} | {self.status}"
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="ratings")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="ratings")
