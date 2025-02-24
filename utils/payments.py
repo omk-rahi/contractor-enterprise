@@ -22,7 +22,7 @@ def create_checkout_session(user, items):
                 'currency': 'inr',
                 'product_data': {
                     'name': item.name,
-                    'images': ["https://res.cloudinary.com/dn3jtk7bz/image/upload/v1738320767/cld-sample-3.jpg"],
+                    'images': [item.image],
                 },
                 'unit_amount': item.price * 100,
             },

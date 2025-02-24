@@ -18,6 +18,8 @@ urlpatterns = [
     path("orders/<int:pk>/", OrderDetail.as_view(), name="order-detail"),
     path("orders/cancel/", cancel_order, name="cancel-order"),
 
+    path("rating/", give_rating, name="give-rating"),
+
     path("shop/payment/success/", PaymentSuccessView.as_view()),
     path("shop/payment/cancel/", PaymentCancelView.as_view()),
     path("stripe/webhook/", webhook_view),

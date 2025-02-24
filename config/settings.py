@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-
+import cloudinary_storage
 
 load_dotenv()
 
@@ -41,7 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+
+
     'django.contrib.staticfiles',
+    "cloudinary_storage",
+    "cloudinary",
 
 
     # Third Party
@@ -196,3 +200,14 @@ STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
 BACKEND_DOMAIN="http://127.0.0.1:8000"
 PAYMENT_SUCCESS_URL="http://127.0.0.1:8000/shop/payment/success"
 PAYMENT_CANCEL_URL="http://127.0.0.1:8000/shop/payment/cancel"
+
+
+# CLOUDNARY
+
+CLOUDINARY_STORAGE = {
+    "CLOUD_NAME": os.getenv("CLOUDINARY_CLOUD_NAME"),
+    "API_KEY": os.getenv("CLOUDINARY_API_KEY"),
+    "API_SECRET": os.getenv("CLOUDINARY_API_SECRET"),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

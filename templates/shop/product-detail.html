@@ -20,7 +20,7 @@
             class="swiper-slide border default-border-radius p-2 cursor-pointer"
           >
             <img
-              src="/media/{{image.image}}"
+              src="https://res.cloudinary.com/dn3jtk7bz/{{image.image}}"
               alt="Image of {{object.name}}"
               width="80"
               height="80"
@@ -39,11 +39,12 @@
         {% endfor %} {% for _ in object.rating.remain|times %}
         <i data-feather="star"></i>
         {% endfor %}
+        <span class="fs-6 fw-bold ms-1">({{object.rating.count}})</span>
       </div>
       <h5>{{object.name}}</h5>
       <p class="d-flex justify-content-between w-75 mt-3">
-        <span>Brand: Appple</span>
-        <span>Category: Laptop</span>
+        <span>Brand: {{object.brand}}</span>
+        <span>Category: {{object.category}}</span>
       </p>
       <p>
         <span>Availability:</span>
@@ -142,15 +143,15 @@
       <li class="nav-item" role="presentation">
         <button
           class="nav-link text-uppercase fs-6"
-          id="contact-tab"
+          id="review-tab"
           data-bs-toggle="tab"
-          data-bs-target="#contact-tab-pane"
+          data-bs-target="#review-tab-pane"
           type="button"
           role="tab"
-          aria-controls="contact-tab-pane"
+          aria-controls="review-tab-pane"
           aria-selected="false"
         >
-          Review
+          Reviews
         </button>
       </li>
     </ul>
@@ -181,13 +182,42 @@
         </table>
       </div>
       <div
-        class="tab-pane fade"
-        id="contact-tab-pane"
+        class="tab-pane fade p-4"
+        id="review-tab-pane"
         role="tabpanel"
-        aria-labelledby="contact-tab"
+        aria-labelledby="review-tab"
         tabindex="0"
       >
-        ...
+
+      {% if not object.reviews.all %}
+        <p>No reviews for this product</p>
+      {% endif %}
+
+        {% for review in object.reviews.all %}
+            <div class="card mb-3 p-3 border">
+              <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                  {% if review.user.profile_image %}
+                    <img src="{{ review.user.profile_image.url }}" alt="Profile Image" class="rounded-circle me-2" width="40" height="40">
+                  {% else %}
+                    <i data-feather="user" class="me-2 text-secondary" width="32" height="32"></i>
+                  {% endif %}
+                  <h5 class="mb-0">{{ review.user.fullname }}</h5>
+                </div>
+
+                <div class="reviews mb-2">
+                    {% for _ in review.rating|times %}
+                        <i data-feather="star" class="star"></i>
+                        {% endfor %}
+                        {% for _ in review.remain|times  %}
+                        <i data-feather="star"></i>
+                    {% endfor %}
+                </div>
+
+                <p class="text-muted">{{ review.feedback }}</p>
+              </div>
+            </div>
+        {% endfor %}
       </div>
     </div>
   </div>

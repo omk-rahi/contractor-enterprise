@@ -1,7 +1,8 @@
 from django.db import models
 from accounts.models import CustomUser
-
-from random import randrange
+from django.db.models import Avg, Count
+from cloudinary.models import CloudinaryField
+from django.conf import settings
 
 # Create your models here.
 
@@ -58,10 +59,16 @@ class Product(models.Model):
         return None
     
     @property
-
     def rating(self):
-        rate = 3
-        return {"rating": rate, "remain": 5 - rate}
+        rating_data = self.reviews.aggregate(avg_rating=Avg('rating'), review_count=Count('id'))
+        avg_rating = rating_data['avg_rating'] or 0 
+        avg_rating_int = int(avg_rating)
+        review_count = rating_data['review_count']
+        return {
+            "rating": avg_rating_int,
+            "remain": 5 - avg_rating_int,
+            "count": review_count,
+        }
 
     @property
     def available_stock(self):
@@ -82,12 +89,11 @@ class ProductSpec(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to='products/')
+    image = CloudinaryField("image")
     is_primary = models.BooleanField(default=False)
 
     def __str__(self):
-                return f"Image of {self.product.name}"
-
+        return f"https://res.cloudinary.com/dn3jtk7bz/{self.image}"
     
 class ProductStock(models.Model):
 
@@ -196,6 +202,17 @@ class Payment(models.Model):
         return f"{self.date} | {self.payment_method} | {self.status}"
 
 
-class Rating(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="ratings")
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="ratings")
+class Reviews(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="reviews")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    rating = models.PositiveIntegerField()
+    feedback = models.TextField()
+
+    @property
+    def remain(self):
+        return 5 - self.rating
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'product'], name='unique_user_product_review')
+        ]

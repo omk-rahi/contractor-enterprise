@@ -2,12 +2,14 @@ from django.db import models
 
 from accounts.models import CustomUser
 
+from cloudinary.models import CloudinaryField
+
 # Create your models here.
 
 class Service(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
-    image = models.ImageField(upload_to="services/")
+    image = CloudinaryField("image")
 
     def __str__(self):
         return self.name

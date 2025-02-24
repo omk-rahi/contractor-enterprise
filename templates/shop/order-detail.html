@@ -16,6 +16,31 @@
     </div>
   </div>
 
+ <!-- Order Progress Steps -->
+  <div class="bg-light d-flex justify-content-between text-center py-2 px-5">
+      <div class="step text-light-emphasis">
+          <i data-feather="shopping-cart" class="fs-2"></i>
+          <p class="fw-bold mt-2">Order Placed</p>
+      </div>
+      <div class="step text-light-emphasis">
+          <i data-feather="settings" class="fs-2"></i>
+          <p class="fw-bold mt-2">Processing</p>
+      </div>
+      <div class="step text-light-emphasis">
+          <i data-feather="truck" class="fs-2"></i>
+          <p class="fw-bold mt-2">Shipped</p>
+      </div>
+      <div class="step text-light-emphasis">
+          <i data-feather="briefcase" class="fs-2"></i>
+          <p class="fw-bold mt-2">Out for Delivery</p>
+      </div>
+      <div class="step text-light-emphasis">
+          <i data-feather="check-circle" class="fs-2"></i>
+          <p class="fw-bold mt-2">Delivered</p>
+      </div>
+    </div>
+
+
   <div class="row align-items-start mt-4">
     <div class="mt-4 col-8">
       <table class="product-detail-table">
@@ -94,6 +119,7 @@
 
   {% if object.status == 'delivered' %}
     <div class="mt-6">
+      <button class="btn btn-warning text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#reviewModal">Claim Warranty</button>
       <button class="btn btn-success text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#reviewModal">Leave a Review</button>
     </div>
   {% endif %}
@@ -107,7 +133,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="">
+        <form action={% url 'give-rating' %} method="post">
+          {% csrf_token %}
             <label class="form-label">Rating</label>
           <div class="dropdown">
             <button class="btn border dropdown-toggle w-100 d-flex justify-content-between rating-button align-items-center" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -157,11 +184,20 @@
             </ul>
           </div>
           
-          <input type="hidden" name="rating" class="rating-input">
+          <div class="my-3">
+            <label for="review-product" class="form-label">Select Product</label>
+            <select name="product" id="review-product" class="form-control" required>
+              {% for item in object.items.all %}
+                <option value={{item.product.id}}>{{item.product}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <input type="hidden" name="rating" class="rating-input" required>
 
           <div class="my-3">
             <label for="review-feedback" class="form-label">Feedback</label>
-            <textarea class="form-control" id="review-feedback" rows="5" placeholder="Write down your feedback about our product"></textarea>
+            <textarea class="form-control" id="review-feedback" rows="5" placeholder="Write down your feedback about our product" name="feedback"></textarea>
           </div>
 
           <div class="py-3 d-flex gap-2">

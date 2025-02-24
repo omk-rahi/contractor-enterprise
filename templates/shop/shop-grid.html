@@ -92,6 +92,7 @@
                         {% for _ in object.rating.remain|times  %}
                         <i data-feather="star"></i>
                         {% endfor %}
+                        <span class="fs-6 fw-bold ms-1">({{object.rating.count}})</span>
                     </div>
                     
                     <div class="mt-2">

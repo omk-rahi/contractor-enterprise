@@ -21,7 +21,7 @@
         {% for field in extra.fields %} {% if field == 'image'%}
         <td>
           <img
-            src="/media/{{object|get_attr:field}}"
+            src="https://res.cloudinary.com/dn3jtk7bz/{{object.image}}"
             alt="Image of {{extra.title}}"
             height="100px"
             class="default-border-radius"

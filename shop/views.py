@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import Product, Cart, Order, OrderItem, Brand, Category
+from .models import Product, Cart, Order, OrderItem, Brand, Category, Reviews
 from django.contrib import messages
 from accounts.models import Address
 from accounts.forms import AddressForm
@@ -324,3 +324,31 @@ def cancel_order(request):
     order.save()
 
     return redirect(request.META.get("HTTP_REFERER", "home"))
+
+
+
+# RATINGS
+
+@login_required
+def give_rating(request):
+    if request.method != "POST":
+        return redirect('home')
+
+    rating = request.POST["rating"]
+    feedback = request.POST["feedback"]
+    product_id = request.POST["product"]
+    product = get_object_or_404(Product, pk=product_id)
+
+    if not rating or not feedback or not product_id:
+        messages.error(request, "Please provide all required fields.")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    existing_review = Reviews.objects.filter(user=request.user, product=product).first()
+    if existing_review:
+        messages.error(request, "You have already reviewed this product.")
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    Reviews.objects.create(product=product, user=request.user, rating=rating, feedback=feedback)
+    messages.success(request, "Review published successfully!")
+    
+    return redirect(request.META.get('HTTP_REFERER', '/'))
