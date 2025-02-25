@@ -20,7 +20,7 @@
   <body>
     <!-- NAVBAR -->
     <header>
-      <nav class="navbar bg-gradient-secondary">
+      <nav class="navbar bg-primary">
         <div class="container">
           <a class="navbar-brand" href="/">
             <img src="{% static "images/logo.svg" %}" alt="Brand Logo"
@@ -28,7 +28,7 @@
           </a>
 
           <form class="w-50" role="search" method="get" action="{% url 'shop' %}">
-            <div class="input-group mb-3">
+            <div class="input-group">
               <input type="text" class="form-control" placeholder="Search anything...." aria-label="Recipient's username" aria-describedby="basic-addon2" name="query">
               <span class="input-group-text border-0 border-start-0 bg-white">
                 <i data-feather="search" width="24" height="24"></i>
@@ -125,14 +125,14 @@
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i data-feather="map-pin" width="20" height="20"></i>&nbsp;
-                Track Order
+                <i data-feather="monitor" width="20" height="20"></i>&nbsp; PC
+                Builder
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i data-feather="monitor" width="20" height="20"></i>&nbsp; PC
-                Builder
+              <a href="{% url 'list-services' %}" class="nav-link">
+                <i data-feather="tool" width="20" height="20"></i>&nbsp;
+                Services
               </a>
             </li>
             <li class="nav-item">
@@ -154,7 +154,7 @@
 
     {% if not breadcrumbs|length == 0 %}
 
-    <div class="bg-light">
+    <div>
       <div class="container py-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0">
@@ -197,11 +197,13 @@
     {% endif %}
 
 
-    <main class="center-x">{% block main %}{% endblock %}</main>
+    <main class="center-x">
+        {% block main %}{% endblock %}
+    </main>
 
 
-    <footer class="bg-gradient-secondary mt-6">
-        <p class="m-0 text-white py-4 text-center">&copy; {% now "Y" %} Contractor Enterprise IT Solutions.</p>
+    <footer class="mt-6 text-secondry">
+        <p class="m-0 py-4 text-center">&copy; {% now "Y" %} Contractor Enterprise IT Solutions.</p>
     </footer>
 
 

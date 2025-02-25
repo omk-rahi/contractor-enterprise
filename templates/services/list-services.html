@@ -4,8 +4,8 @@
     <div class="container my-6">
         <div class="row gap-4">
             {% for object in object_list  %}
-            <div class="card shadow-sm p-4 border" style="max-width: 424px;">
-                <img src="/media/{{object.image}}" alt="Service {{object.name}} image" class="service-image">
+            <div class="card shadow-sm p-4 rounded" style="max-width: 424px;">
+                <img src="https://res.cloudinary.com/dn3jtk7bz/{{object.image}}" alt="Service {{object.name}} image" class="service-image">
                 <h4 class="mt-2">{{object.name}}</h4>
                 <p>{{object.description}}</p>
                 <a href="./{{object.id}}" class="btn btn-outline-primary text-uppercase">Read More</a>

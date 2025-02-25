@@ -3,12 +3,12 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import Product, Cart, Order, OrderItem, Brand, Category, Reviews
+from .models import Product, Cart, Order, OrderItem, Brand, Category, Reviews, Payment
 from django.contrib import messages
 from accounts.models import Address
 from accounts.forms import AddressForm
 from .forms import CheckoutForm
-from django.db.models import Q
+from django.db.models import Q, Avg, Count
 
 from .utils import get_stock, freeze_stock, get_checkout_total_cart, get_checkout_total_product
 
@@ -20,8 +20,14 @@ def index(request):
 
     if request.user.is_superuser:
         return redirect("/admin")
+    
+    products = list(Product.objects.annotate(
+        avg_rating=Avg('reviews__rating'),
+        review_count=Count('reviews')
+    ).order_by('-avg_rating')[:3])
 
-    return render(request, 'shop/homepage.html')
+
+    return render(request, 'shop/homepage.html', context={"products": products})
 
 class ShopGrid(ListView):
     model = Product
@@ -202,6 +208,7 @@ def checkout(request):
             if payment_mode == 'cod':
                 order = Order.objects.create(user=request.user)
                 OrderItem.objects.create(order=order, product=product, sku=stock)
+                Payment.objects.create(order=order, payment_method="COD", stripe_id="", status="pending")
 
                 freeze_stock(stock=stock)
 
@@ -262,6 +269,8 @@ def cart_checkout(request):
                     OrderItem.objects.create(order=order, product=product, sku=stock)
                     freeze_stock(stock=stock)
 
+                    
+
                 for item in items:
                     item.delete()
 
@@ -319,6 +328,13 @@ def cancel_order(request):
     order_id = request.POST.get("order_id")
 
     order = get_object_or_404(Order, pk=order_id)
+
+    items = order.items.all()
+
+    for item in items:
+        item.sku.status = "available"
+        item.sku.save()
+
 
     order.status = 'canceled'
     order.save()

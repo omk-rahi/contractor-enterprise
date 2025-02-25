@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load static %}{% load crispy_forms_tags %} {% block main %}
 
-<div class="container my-6">
-  <div class="border px-5 py-4 default-border-radius">
+<div class="container">
+  <div class="px-5 py-4 container mt-4 bg-white rounded shadow-sm p-5">
     <h5 class="text-uppercase mt-4 mb-4">Account settings</h5>
     <form
       action="{% url 'save-profile' %}"
@@ -44,7 +44,7 @@
     </form>
   </div>
 
-  <div class="mt-4 border px-5 py-4 default-border-radius">
+  <div class="container mt-4 bg-white rounded shadow-sm p-5">
     <form action="{% url 'save-address' %}" method="post">
       {% csrf_token %}
       <h5 class="text-uppercase mt-2 mb-4">User Address</h5>

@@ -4,7 +4,7 @@ from django.conf import settings
 import json
 import stripe
 from accounts.models import CustomUser
-from shop.models import Order, OrderItem, Product, Cart
+from shop.models import Order, OrderItem, Product, Cart, Payment
 from shop.utils import get_stock, freeze_stock
 from shop.utils import get_checkout_total_product
 
@@ -100,6 +100,7 @@ def webhook_view(request):
     session = event['data']['object']
     user_id = session['metadata']['user_id']
     items = json.loads(session['metadata']['items'])
+    stripe_id = session.get('id', '')
 
     user = CustomUser.objects.get(id=user_id)
 
@@ -111,6 +112,7 @@ def webhook_view(request):
         stock = get_stock(product=product)
         freeze_stock(stock=stock)
         OrderItem.objects.create(product=product, order=order, sku=stock)
+        Payment.objects.create(order=order, payment_method="Online", stripe_id=stripe_id, status="completed")
 
         try:
             cart_item = Cart.objects.get(user=user, product=product)

@@ -10,10 +10,10 @@ def status_class(status):
     elif status.lower() in ['canceled', 'failed', 'rejected', 'sold']:
         return 'danger'
     
-    elif status.lower() in ['in_process', 'pending']:
+    elif status.lower() in ['processing', 'pending']:
         return 'warning'
     
-    elif status.lower() in ['confirmed']:
+    elif status.lower() in ['shipped', 'out for delivery']:
         return 'info'
 
     else:

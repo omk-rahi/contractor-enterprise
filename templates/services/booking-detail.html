@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% block main %}
 
-<div class="container mt-6">
+<div class="container mt-6 container my-4 bg-white rounded shadow-sm p-5">
   <div
-    class="bg-primary p-4 default-border-radius d-flex align-items-center justify-content-between"
+    class="bg-primary p-4 rounded d-flex align-items-center justify-content-between"
   >
     <div>
       <p class="my-0 fs-3 text-white">#{{object.id}}</p>
@@ -17,12 +17,12 @@
   </div>
 
   {% if object.scheduled_date %}
-    <span>Service scheduled date {{object.scheduled_date|date:"M d, Y"}}</span>
+    <span class="p-2 d-block">Service scheduled date {{object.scheduled_date|date:"M d, Y"}}</span>
   {% else %}
-    <span>Service is not scheduled yet!</span>
+    <span class="p-2 d-block">Service is not scheduled yet!</span>
   {% endif %}
   
-  <div class="card p-4 mt-6">
+  <div class="card p-4 my-3 border rounded">
     <div>
       <h5>Service Address</h5>
       <h6 class="mt-4">{{object.user.fullname}}</h6>

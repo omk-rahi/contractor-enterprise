@@ -1,9 +1,9 @@
 {% extends "base.html" %} {% load status_class %} {% block main %}
 
 {% if not bookings %}
-  <div class="center-x mt-6">
+  <div class="center-x container my-4 bg-white rounded shadow-sm p-5">
      <i data-feather="frown" width="64" height="64"></i>
-    <h4 class="mt-4">No Bookings Found!</h4>
+    <h4 class="mt-2">No Bookings Found!</h4>
     <p class="text-center">
        You haven't made any bookings yet. Schedule your service booking now and secure your spot!
     </p>
@@ -11,7 +11,7 @@
 
 {% else %}
 
-<div class="container my-6">
+<div class="container my-4 bg-white rounded shadow-sm py-4 px-5">
   <h5 class="text-uppercase my-4">Booking History</h5>
 
   <table class="w-100 secondary-table">

@@ -2,46 +2,46 @@
 
 <div class="container mt-4">
     <div class="hero row">
-        <div class="col-8 bg-light default-border-radius py-4 px-5 d-flex align-items-center position-relative">
+        <div class="col-8 bg-white shadow-sm rounded default-border-radius py-4 px-5 d-flex align-items-center position-relative">
             <div class="hero__content">
-            <span class="text-primary fw-semibold">&mdash; THE BEST PLACE TO PLAY</span> 
-            <h3 class="mt-2">Apex Series</h3>
-            <p>Elite gaming PCs delivering power, speed, precision, and immersive performance.</p>
-            <span class="fs-6 fw-bold bg-primary rounded-circle text-white hero__price">₹64000</span>
-            <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+            <span class="text-primary fw-semibold">&mdash; THE BEST TIME TO SHOP</span> 
+            <h3 class="mt-2">{{products.0.name}}</h3>
+            <p>{{products.0.description}}</p>
+            <span class="fs-6 fw-bold bg-primary rounded-circle text-white hero__price">₹{{products.0.price}}</span>
+            <a href="/shop/{{products.0.id}}" class="d-flex gap-2 align-item-center btn btn-primary text-white" style="width: fit-content;">
                 <span>SHOW NOW</span>
                 <i data-feather="arrow-right" width="20" height="20"></i>
-            </button>
+            </a>
             </div>
-            <div class="hero__image">
-                <img src="{% static 'images/pc.png' %}" alt="Hero image">
+            <div class="hero__image w-100">
+                <img src="{{products.0.image}}" alt="Hero image" class="w-100" style="object-fit:contain;">
             </div>
         </div>
         <div class="col-4">
-            <div class="d-flex align-items-center bg-gradient-secondary default-border-radius p-4 mb-2">
+            <div class="d-flex align-items-center bg-gradient-secondary rounded shadow-sm p-4 mb-2">
                 <div class="hero__content">
-                    <h5 class="mt-2 text-white">Intel Core I7-14700K</h5>
-                    <p class="text-white fw-semibold">₹3,390</p>
-                    <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+                    <h5 class="mt-2 text-white">{{products.1.name}}</h5>
+                    <p class="text-white fw-semibold">₹{{products.1.price}}</p>
+                    <a href="/shop/{{products.1.id}}" class="d-flex gap-2 align-item-center btn btn-primary text-white" style="width: fit-content;">
                         <span>SHOW NOW</span>
                         <i data-feather="arrow-right" width="20" height="20"></i>
-                    </button>
+                    </a>
                 </div>
                 <div class="hero__image">
-                    <img src="{% static 'images/pc.png' %}" alt="Hero image" height="184">
+                    <img src="{{products.1.image}}" alt="Hero image" height="184" width="150" style="object-fit:contain;">
                 </div>
             </div>
-            <div class="d-flex align-items-center bg-light default-border-radius p-4">
+            <div class="d-flex align-items-center bg-white rounded shadow-sm default-border-radius p-4">
                 <div class="hero__image">
-                    <img src="{% static 'images/pc.png' %}" alt="Hero image" height="184">
+                    <img src="{{products.2.image}}" alt="Hero image" height="184" width="150" style="object-fit:contain;">
                 </div>
                 <div class="hero__content">
-                    <h5 class="mt-2">Cosmic Byte Inferno </h5>
-                    <p class="text-primary fw-semibold">₹3,390</p>
-                    <button class="d-flex gap-2 align-item-center btn btn-primary text-white">
+                    <h5 class="mt-2">{{products.2.name}}</h5>
+                    <p class="text-primary fw-semibold">₹{{products.2.price}}</p>
+                    <a href="/shop/{{products.2.id}}" class="d-flex gap-2 align-item-center btn btn-primary text-white" style="width: fit-content;">
                         <span>SHOW NOW</span>
                         <i data-feather="arrow-right" width="20" height="20"></i>
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
      
         <div class="d-flex justify-content-between">
                {% for type in product_type %}
-                <a class="border default-border-radius text-center py-2 px-3 link-underline link-underline-opacity-0 text-body" href="/shop/?type={{type.type}}">
+                <a class="bg-white shadow-sm rounded text-center py-2 px-3 link-underline link-underline-opacity-0 text-body card-hover" href="/shop/?type={{type.type}}">
                     <img src="{% static 'images/type' %}-{{ type.type }}.png" alt="" height="120" width="120">
                     <p>{{type.type}}</p>
                 </a>

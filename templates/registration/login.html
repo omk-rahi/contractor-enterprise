@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% block main %}
 
-<form method="post" action="{% url 'login' %}" class="auth__form">
+<form method="post" action="{% url 'login' %}" class="auth__form rounded shadow-sm">
   {% csrf_token %}
   <ul class="nav nav-underline py-2 row">
     <li class="nav-item text-center col">

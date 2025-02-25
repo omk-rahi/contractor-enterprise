@@ -12,7 +12,7 @@
     <div class="container">
         
         <div class="d-flex justify-content-between gap-4 mt-6">
-            <button class="btn border fs-6" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
+            <button class="btn border fs-6 bg-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#filterSidebar" aria-controls="filterSidebar">
                 <i data-feather="filter" width="20" height="20"></i>
                 Filter
             </button>
@@ -78,7 +78,7 @@
         <div class="my-6">
             <div class="shop-grid m-0">
                 {% for object in object_list  %}
-                <a href="./{{object.id}}" class="g-col-4 m-0 card border p-4 link-underline link-underline-opacity-0 default-border-radius">
+                <a href="./{{object.id}}" class="g-col-4 m-0 card p-4 link-underline link-underline-opacity-0 rounded shadow-sm">
                     {% if object.image %}
                     <div class="center-x">
                             <img src="{{object.image}}" alt="Image of {{object.name}}" width="200px" height="152px" class="product-image">

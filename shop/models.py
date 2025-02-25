@@ -129,15 +129,17 @@ class Cart(models.Model):
 class Order(models.Model):
 
     STATUS = [
-            ('created', 'Created'), 
-            ('confirmed', 'Confirmed'), 
-            ('canceled', 'Canceled'),
+            ('Order Placed', 'Order Placed'), 
+            ('processing', 'Processing'), 
+            ('shipped', 'Shipped'),
+            ('out for delivery', 'Out for Delivery'),
             ('delivered', 'Delivered'),
+            ('canceled', 'Canceled'),
         ]
 
     
 
-    status = models.CharField(max_length=15, choices=STATUS, default='Created')
+    status = models.CharField(max_length=50, choices=STATUS, default='Order Placed')
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="user_orders")
     date = models.DateTimeField(auto_now_add=True)
 
@@ -194,8 +196,9 @@ class Payment(models.Model):
     
 
     payment_method = models.CharField(max_length=20, choices=METHOD)
+    stripe_id = models.CharField(max_length=255)
     status = models.CharField(max_length=20, choices=STATUS)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="payment")
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name="payment")
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

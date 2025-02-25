@@ -1,8 +1,8 @@
-{% extends "base.html" %} {% block main %}
+{% extends "base.html" %} {% load status_class %} {% block main %}
 
-<div class="container mt-6">
+<div class="container mt-6 my-4 bg-white rounded shadow-sm py-4 px-5">
   <div
-    class="bg-light p-4 default-border-radius d-flex align-items-center justify-content-between w-100"
+    class="p-4 default-border-radius d-flex align-items-center justify-content-between w-100"
   >
     <div>
       <p class="my-0 fs-3">#{{object.id}}</p>
@@ -11,37 +11,19 @@
         <span>Order Placed on {{object.date|date:"M d, Y H:i"}}</span>
       </p>
     </div>
-    <div>
+    <div class="d-flex align-items-end flex-column">
+      {% if object.status == 'delivered' or object.status == 'canceled' %}
+      <p class="text-{% status_class order.status %} text-uppercase fw-bold my-0 fs-5">{{order.status}}</p>
+      {% else %}
       <p class="fs-2 my-0">₹{{object.total}}</p>
+      <p class="text-{% status_class object.payment.status %} text-uppercase fw-semibold my-0 fs-6">{{object.payment.status}}</p>
+      {% endif %}
     </div>
   </div>
 
- <!-- Order Progress Steps -->
-  <div class="bg-light d-flex justify-content-between text-center py-2 px-5">
-      <div class="step text-light-emphasis">
-          <i data-feather="shopping-cart" class="fs-2"></i>
-          <p class="fw-bold mt-2">Order Placed</p>
-      </div>
-      <div class="step text-light-emphasis">
-          <i data-feather="settings" class="fs-2"></i>
-          <p class="fw-bold mt-2">Processing</p>
-      </div>
-      <div class="step text-light-emphasis">
-          <i data-feather="truck" class="fs-2"></i>
-          <p class="fw-bold mt-2">Shipped</p>
-      </div>
-      <div class="step text-light-emphasis">
-          <i data-feather="briefcase" class="fs-2"></i>
-          <p class="fw-bold mt-2">Out for Delivery</p>
-      </div>
-      <div class="step text-light-emphasis">
-          <i data-feather="check-circle" class="fs-2"></i>
-          <p class="fw-bold mt-2">Delivered</p>
-      </div>
-    </div>
 
+  <div class="row">
 
-  <div class="row align-items-start mt-4">
     <div class="mt-4 col-8">
       <table class="product-detail-table">
         <thead>
@@ -57,10 +39,10 @@
           <tr>
             <td>
               <img
-                src="{{item.product.image}}"
-                alt="Image of {{extra.title}}"
-                height="80px"
-                class="default-border-radius"
+              src="{{item.product.image}}"
+              alt="Image of {{extra.title}}"
+              height="80px"
+              class="default-border-radius"
               />
             </td>
             <td>{{item.product.name}}</td>
@@ -71,7 +53,7 @@
         </tbody>
       </table>
     </div>
-
+    
     <div class="border p-4 mt-4 col-4">
       <div>
         <h5>Billing Address</h5>
@@ -81,7 +63,7 @@
           {{user.address.city}} - {{user.address.pincode}}<br />
           {{user.address.state}}<br />
         </p>
-
+        
         <p class="my-2">Phone: {{object.user.phone}}</p>
         <p class="my-2">Email: {{object.user.email}}</p>
       </div>
@@ -119,7 +101,6 @@
 
   {% if object.status == 'delivered' %}
     <div class="mt-6">
-      <button class="btn btn-warning text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#reviewModal">Claim Warranty</button>
       <button class="btn btn-success text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#reviewModal">Leave a Review</button>
     </div>
   {% endif %}

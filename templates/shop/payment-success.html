@@ -1,6 +1,6 @@
 {% extends "base.html" %} {% load static %} {% block main %}
 
-<div class="mt-6">
+<div class="container mt-6 my-4 bg-white rounded shadow-sm py-4 px-5">
   <div class="mt-6 py-4">
     <div class="text-center">
       <img src="{% static "images/CheckCircle.png" %}" alt="Success Image">
@@ -17,7 +17,7 @@
         ><i data-feather="home" width="24"></i>Go to home</a
       >
       <a
-        href="/accounts/login"
+        href="{% url 'list-orders' %}"
         class="btn btn-primary text-white text-uppercase link-underline link-underline-opacity-0 gap-2 align-items-center"
         >View orders <i data-feather="arrow-right"></i></a
       >

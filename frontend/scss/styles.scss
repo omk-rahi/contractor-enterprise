@@ -171,6 +171,7 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: #f8f9fa !important;
 }
 
 main {
@@ -408,7 +409,6 @@ strong {
   width: 424px;
   margin-top: 100px;
   background-color: #fff;
-  box-shadow: $card-shadow;
 }
 
 .auth__form.register-form {
@@ -443,12 +443,13 @@ strong {
 .product-detail-image-container {
   display: flex;
   justify-content: center;
+  height: 324px;
 }
 
 .product-detail-image-container img {
-  width: 324px;
   object-fit: cover;
   height: 100%;
+  transform: scale(0.75);
 }
 
 .hero__price {
@@ -491,6 +492,22 @@ strong {
 
 .rating-button::after {
   display: none !important;
+}
+
+.card-hover {
+  transition: 200ms all;
+}
+.card-hover:hover {
+  transform: scale(1.05);
+}
+
+body::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #dee2e6;
+  border-radius: 12px;
 }
 
 @import "bootstrap/scss/bootstrap";

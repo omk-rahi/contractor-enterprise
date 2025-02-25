@@ -151,3 +151,38 @@ INSERT INTO shop_specification (category_id, key) VALUES
 ((SELECT id FROM shop_category WHERE name = 'System Software'), 'OS Compatibility'),
 ((SELECT id FROM shop_category WHERE name = 'System Software'), 'Version'),
 ((SELECT id FROM shop_category WHERE name = 'System Software'), 'License Type');
+
+
+
+
+INSERT INTO shop_productstock (product_id, serial_number, status) VALUES
+(11, 'SN12400F000001', 'available'),
+(11, 'SN12400F000002', 'available'),
+(11, 'SN12400F000003', 'available'),
+(11, 'SN12400F000004', 'available'),
+(11, 'SN12400F000005', 'available'),
+(11, 'SN12400F000006', 'available'),
+(11, 'SN12400F000007', 'available'),
+(11, 'SN12400F000008', 'available'),
+(11, 'SN12400F000009', 'available'),
+(11, 'SN12400F000010', 'available'),
+(11, 'SN12400F000011', 'available'),
+(11, 'SN12400F000012', 'available'),
+(11, 'SN12400F000013', 'available'),
+(11, 'SN12400F000014', 'available'),
+(11, 'SN12400F000015', 'available'),
+(11, 'SN12400F000016', 'available'),
+(11, 'SN12400F000017', 'available'),
+(11, 'SN12400F000018', 'available'),
+(11, 'SN12400F000019', 'available'),
+(11, 'SN12400F000020', 'available'),
+(11, 'SN12400F000021', 'available'),
+(11, 'SN12400F000022', 'available'),
+(11, 'SN12400F000023', 'available'),
+(11, 'SN12400F000024', 'available'),
+(11, 'SN12400F000025', 'available'),
+(11, 'SN12400F000026', 'available'),
+(11, 'SN12400F000027', 'available'),
+(11, 'SN12400F000028', 'available'),
+(11, 'SN12400F000029', 'available'),
+(11, 'SN12400F000030', 'available');
