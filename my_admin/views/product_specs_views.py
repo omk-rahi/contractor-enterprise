@@ -13,7 +13,7 @@ class ListProductSpecsView(AddExtraContextMixin, ListView):
     ordering = ['id']
     extra_context = {
         "title": "Product Specs",
-        "fields": [field.name for field in ProductSpec._meta.get_fields() if not field.is_relation]
+        "fields": ["id", "specification", "value"]
     }
 
     

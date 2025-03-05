@@ -157,7 +157,14 @@ class Order(models.Model):
     
     @property
     def item_description(self):
-        return "TEST"
+        items = self.items.all()
+        if not items:
+            return "No items in order"
+        
+        if len(items) == 1:
+            return items[0].product.name
+
+        return f"{items[0].product.name} + {len(items) - 1} other items"
 
     def __str__(self):
         return f"Order from {self.user}"    

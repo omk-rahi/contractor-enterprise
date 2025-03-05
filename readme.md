@@ -29,7 +29,7 @@ It's recommended to use a virtual environment to manage dependencies for the bac
 
 ```bash
     python -m venv venv
-    venv\Scripts\activate
+    source venv/Scripts/activate
 ```
 
 #### 2.2 Install Backend Dependencies

@@ -42,5 +42,6 @@ class UpdateOrderView(AddExtraContextMixin, UpdateView):
     success_url = reverse_lazy('admin/list-order')
 
     extra_context = {
+        "disable_create": True,
         "title": "Update Order"
     }

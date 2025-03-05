@@ -51,7 +51,7 @@
         {% if object.available_stock > 5 %}
         <span class="text-success fw-semibold">In Stock</span>
         {% elif object.available_stock > 0 and object.available_stock < 5 %}
-        <span class="text-warning fw-semibold"
+        <span class="text-danger fw-semibold"
           >Only {{object.available_stock}} stock left</span
         >
         {% else %}

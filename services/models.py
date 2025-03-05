@@ -50,7 +50,7 @@ class Quote(models.Model):
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING, related_name="quotes")
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="quotes")
     estimated_cost = models.PositiveIntegerField(null=True, default=0)
-    problem = models.OneToOneField(ServiceCost, on_delete=models.CASCADE, related_name="problem", null=True, default=None)
+    problem = models.OneToOneField(ServiceCost, on_delete=models.CASCADE, related_name="problem")
 
 
     def __str__(self):
