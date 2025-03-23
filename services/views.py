@@ -37,15 +37,17 @@ def add_quote(request):
             messages.error(request, "Please add your address first")
             return redirect("user-settings")
 
-        service = Service.objects.get(id=request.POST['service_id'])
-        description = request.POST["description"]
-        problem = request.POST["problem"]
-        cost = get_object_or_404(ServiceCost, pk=problem)
-        Quote.objects.create(user=user, service=service, description=description, problem=cost)
+        print("DONE")
 
-        messages.success(request, "Quote added. We will contact you later")
+        # service = Service.objects.get(id=request.POST['service_id'])
+    #     description = request.POST["description"]
+    #     problem = request.POST["problem"]
+    #     cost = get_object_or_404(ServiceCost, pk=problem)
+    #     Quote.objects.create(user=user, service=service, description=description, problem=cost)
 
-    return redirect("list-services")
+    #     messages.success(request, "Quote added. We will contact you later")
+
+    # return redirect("list-services")
 
 @login_required
 def view_bookings(request):
