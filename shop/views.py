@@ -3,16 +3,19 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from .models import Product, Cart, Order, OrderItem, Brand, Category, Reviews, Payment
+from .models import *
 from django.contrib import messages
 from accounts.models import Address
 from accounts.forms import AddressForm
-from .forms import CheckoutForm
+from .forms import CheckoutForm, WarrantyClaimForm
 from django.db.models import Q, Avg, Count
 
 from .utils import get_stock, freeze_stock, get_checkout_total_cart, get_checkout_total_product
 
 from utils.payments import create_checkout_session
+
+from django.utils.timezone import now
+
 
 # Create your views here.
 
@@ -233,6 +236,7 @@ def checkout(request):
         }
 
         return render(request, "shop/checkout.html", context=context)
+    
 
 
 @login_required
@@ -273,6 +277,9 @@ def cart_checkout(request):
 
                 for item in items:
                     item.delete()
+
+                Payment.objects.create(order=order, payment_method="COD", status="pending")
+
 
                 return redirect("order-success")
 
@@ -342,7 +349,6 @@ def cancel_order(request):
     return redirect(request.META.get("HTTP_REFERER", "home"))
 
 
-
 # RATINGS
 
 @login_required
@@ -368,3 +374,158 @@ def give_rating(request):
     messages.success(request, "Review published successfully!")
     
     return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+# CLAIM
+
+@login_required
+def submit_warranty_claim(request):
+    orders = Order.objects.filter(user=request.user, status="delivered")  
+    order_items = OrderItem.objects.filter(order__user=request.user, warranty__warranty_end_date__gte=now().date())
+
+    if request.method == "POST":
+        form = WarrantyClaimForm(request.POST)
+        if form.is_valid():
+            order_item = form.cleaned_data["order_item"]
+            warranty = Warranty.objects.filter(order_item=order_item).first()
+
+            if not warranty or not warranty.is_valid():
+                return redirect("warranty_claim_expired")
+
+            claim = form.save(commit=False)
+            claim.user = request.user
+            claim.save()
+            return redirect("warranty_claim_success")
+
+    else:
+        form = WarrantyClaimForm()
+        form.fields["order_item"].queryset = order_items
+
+    return render(request, "shop/submit-claim.html", {"form": form, "orders": orders})
+
+
+def warranty_claim_success(request):
+    return render(request, "shop/claim_success.html")
+
+def warranty_claim_expired(request):
+    return render(request, "shop/claim_expired.html")
+
+@login_required
+def warranty_claim_history(request):
+    claims = WarrantyClaim.objects.filter(user=request.user)
+    return render(request, "shop/warranty_claim_history.html", {"claims": claims})
+
+@login_required
+def warranty_claim_detail(request, claim_id):
+    claim = get_object_or_404(WarrantyClaim, id=claim_id, user=request.user)
+    return render(request, "shop/warranty_claim_detail.html", {"claim": claim})
+
+
+
+# BUILDER
+
+def custom_pc_builder(request):
+    components = ["Motherboards", "Processors", "Graphics Cards", "Memory", "Storage Drives", "Power Supply Units", "PC Cabinet", "CPU Cooler", "Case Fans", "Keyboard", "Mouse"]
+    categories = Category.objects.filter(name__in=components)
+    components = [
+        {
+            "name": category.name,
+            "products": Product.objects.filter(category=category)
+        }
+        for category in categories
+    ]
+    return render(request, "shop/builder.html", {"components": components})
+
+
+@login_required
+def builder_checkout(request):
+    address = get_object_or_404(Address, user=request.user)
+
+    if request.method == "POST":
+        selected_components = request.GET.getlist("selected_components")
+
+        products = Product.objects.filter(id__in=selected_components)
+        subtotal = sum(product.price for product in products)
+        build_charge = 0  
+        total = subtotal  
+
+        address_form = AddressForm(request.POST, instance=address)
+        checkout_form = CheckoutForm(request.POST, instance=request.user)
+
+        if address_form.is_valid() and checkout_form.is_valid():
+            address_form.save()
+            checkout_form.save()
+
+            custom_build = CustomPCBuild.objects.create(
+                user=request.user,
+                name=f"Custom PC - {request.user.username}",
+                total_price=total
+            )
+
+            for product in products:
+                PCBuildItem.objects.create(
+                    build=custom_build,
+                    product=product,
+                    component_type=product.category 
+                )
+
+            messages.success(request, "Custom PC Build order placed successfully!")
+            return redirect("order-success")
+
+    else:
+        selected_components = request.GET.getlist("selected_components")
+
+        if len(selected_components) < 11:
+            messages.error(request, "Please select all components")
+            return redirect("builder")
+        else:
+            products = Product.objects.filter(id__in=selected_components)
+            subtotal = sum(product.price for product in products)
+            build_charge = 0  # Adjust if necessary
+            total = subtotal  
+
+            address_form = AddressForm(instance=address)
+            checkout_form = CheckoutForm(instance=request.user)
+
+            context = {
+                "address_form": address_form,
+                "checkout_form": checkout_form,
+                "products": products,
+                "subtotal": subtotal,
+                "build_charge": build_charge,
+                "total": total,
+            }
+            return render(request, "shop/builder_checkout.html", context)
+
+
+@login_required
+def view_custom_orders(request):
+    custom_orders = CustomPCBuild.objects.filter(user=request.user)
+
+    context = {
+        "custom_orders": custom_orders
+    }
+
+    return render(request, "shop/custom_orders.html", context)
+
+
+class CustomOrderDetail(LoginRequiredMixin, DetailView):
+    model = CustomPCBuild
+    template_name = "shop/custom_order_detail.html"
+
+
+@login_required
+def cancel_custom_order(request):
+    if request.method != "POST":
+        return redirect('home')
+
+    order_id = request.POST.get("order_id")
+    custom_order = get_object_or_404(CustomPCBuild, pk=order_id, user=request.user)
+
+    for item in custom_order.items.all():
+        item.product.status = "available"
+        item.product.save()
+
+    custom_order.delete()
+    messages.success(request, "Your custom PC build order has been canceled.")
+    return redirect(request.META.get("HTTP_REFERER", "custom_orders"))

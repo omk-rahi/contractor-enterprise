@@ -1,7 +1,8 @@
 from django.views.generic import ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
-from services.models import Booking
+from django.db.models import Prefetch
+from services.models import Booking, ServiceCost
 from services.forms import UpdateBookingForm
 
 
@@ -43,7 +44,6 @@ class BookingDetailView(AddExtraContextMixin, DetailView):
         "disable_create": True,
         "title": "Booking Detail",
     }
-
 
 class UpdateBookingView(AddExtraContextMixin, UpdateView):
     model = Booking

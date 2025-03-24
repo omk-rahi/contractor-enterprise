@@ -4,18 +4,23 @@ from accounts.models import CustomUser
 from .models import Quote, Booking, ServiceCost
 
 
-class NewQuoteForm(forms.ModelForm):
-
-    description = forms.CharField(
-        widget=forms.Textarea(attrs={'rows': 5, 'cols': 40})
+class QuoteForm(forms.ModelForm):
+    problems = forms.ModelMultipleChoiceField(
+        queryset=ServiceCost.objects.none(),
+        widget=forms.CheckboxSelectMultiple,
+        required=True
     )
-    def __init__(self, *args, service=None, **kwargs):
-        super(NewQuoteForm, self).__init__(*args, **kwargs)
-        self.fields['problem'].queryset = ServiceCost.objects.filter(service=service)
 
     class Meta:
         model = Quote
-        fields = ['problem', 'description']
+        fields = ["problems", "description"]
+
+    def __init__(self, *args, **kwargs):
+        service = kwargs.pop('service', None)
+        super().__init__(*args, **kwargs)
+        if service:
+            self.fields['problems'].queryset = ServiceCost.objects.filter(service=service)
+
 
 class UpdateQuoteForm(forms.ModelForm):
 
@@ -37,3 +42,6 @@ class UpdateBookingForm(forms.ModelForm):
     class Meta:
         model = Booking
         fields = ['staff', "additional_note", 'cost', 'status', 'scheduled_date']
+
+
+

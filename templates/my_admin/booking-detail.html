@@ -1,43 +1,40 @@
-{% extends "admin-base.html" %} {% block main %}
+{% extends "admin-base.html" %} 
+{% block main %}
 
 <div class="container mt-6">
-  <div
-    class="bg-primary p-4 default-border-radius d-flex align-items-center justify-content-between"
-  >
+  <div class="bg-primary p-4 default-border-radius d-flex align-items-center justify-content-between">
     <div>
-      <p class="my-0 fs-3 text-white">#{{object.id}}</p>
+      <p class="my-0 fs-3 text-white">#{{ object.id }}</p>
       <p class="my-0 text-white">
-        <span>{{object.service.name}}</span>&nbsp;&ndash;&nbsp;
-        <span>Service booked on {{object.booking_date|date:"M d, Y"}}</span>
+        <span>{{ object.service.name }}</span>&nbsp;&ndash;&nbsp;
+        <span>Service booked on {{ object.booking_date|date:"M d, Y" }}</span>
       </p>
     </div>
     <div>
-      <p class="fs-2 text-white my-0">₹{{object.cost}}</p>
+      <p class="fs-2 text-white my-0">₹{{ object.cost }}</p>
     </div>
   </div>
 
   <div class="card p-4 mt-6">
     <div>
       <h5>Service Address</h5>
-      <h6 class="mt-4">{{object.user.fullname}}</h6>
+      <h6 class="mt-4">{{ object.user.fullname }}</h6>
       <p class="my-2">
-       {{object.user.address.address_line}},<br />
-       {{object.user.address.city}} - {{object.user.address.pincode}}<br />
-       {{object.user.address.state}}<br />
+        {{ object.user.address.address_line }},<br />
+        {{ object.user.address.city }} - {{ object.user.address.pincode }}<br />
+        {{ object.user.address.state }}<br />
       </p>
-
-      <p class="my-2">Phone: {{object.user.phone}}</p>
-      <p class="my-2">Email: {{object.user.email}}</p>
+      <p class="my-2">Phone: {{ object.user.phone }}</p>
+      <p class="my-2">Email: {{ object.user.email }}</p>
     </div>
-    <span>
-      <hr />
-    </span>
+    <hr />
+
     {% if object.staff %}
     <div>
       <h5>Staff Assigned</h5>
-      <h6 class="mt-4">{{object.staff.fullname}}</h6>
-      <p class="my-2">Phone: {{object.staff.phone}}</p>
-      <p class="my-2">Email: {{object.staff.email}}</p>
+      <h6 class="mt-4">{{ object.staff.fullname }}</h6>
+      <p class="my-2">Phone: {{ object.staff.phone }}</p>
+      <p class="my-2">Email: {{ object.staff.email }}</p>
     </div>
     {% else %}
     <div>
@@ -45,5 +42,36 @@
     </div>
     {% endif %}
   </div>
+
+  <div class="card p-4 mt-6">           
+    <h5>Problems Reported</h5>
+    {% if object.problems.all %}
+    <table class="w-100 secondary-table">
+        <thead>
+            <tr class="bg-light text-uppercase w-100">
+                <th>Problem ID</th>
+                <th>Issue</th>
+                <th>Estimated Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for problem in object.problems.all %}
+            <tr class="text-uppercase">
+                <td>#{{ problem.id }}</td>
+                <td>{{ problem.description }}</td>
+                <td class="text-secondary fw-bold">₹{{ problem.estimated_cost }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center text-muted">No problems selected.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted">No problems reported.</p>
+    {% endif %}
+  </div>
 </div>
+
 {% endblock main %}

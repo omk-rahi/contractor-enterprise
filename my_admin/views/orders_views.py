@@ -2,7 +2,7 @@ from django.views.generic import  UpdateView, View, DetailView
 from django.urls import reverse_lazy
 from django.shortcuts import render
 from my_admin.utils import AddExtraContextMixin
-from shop.models import Order
+from shop.models import Order, Warranty
 
 # Create your views here.
 
@@ -45,3 +45,17 @@ class UpdateOrderView(AddExtraContextMixin, UpdateView):
         "disable_create": True,
         "title": "Update Order"
     }
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        order = form.instance  
+
+        if order.status.lower() == "delivered":
+            order.payment.status = "completed"
+            order.payment.save(update_fields=["status"])
+
+            for item in order.items.all():
+                    Warranty.objects.create(order_item=item)
+
+
+        return response

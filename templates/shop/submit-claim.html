@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm">
+        <h3 class="text-center mb-4">
+            <i data-feather="file-text"></i> Warranty Claim Form
+        </h3>
+        
+        <form method="post" class="needs-validation" novalidate>
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label class="form-label"><i data-feather="package"></i> Select Product</label>
+                {{ form.order_item|as_crispy_field }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label"><i data-feather="edit-3"></i> Reason for Claim</label>
+                {{ form.claim_reason|as_crispy_field }}
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary d-flex align-items-center gap-2 text-uppercase text-white">
+                    <i data-feather="send"></i> Submit Claim
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Feather Icons Init -->
+<script>
+    feather.replace();
+</script>
+
+{% endblock main %}

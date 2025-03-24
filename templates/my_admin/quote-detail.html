@@ -1,0 +1,70 @@
+{% extends "admin-base.html" %}
+{% block main %}
+
+<div class="container mt-5">
+
+  <!-- Quote Header -->
+  <div class="bg-primary p-4 rounded d-flex align-items-center justify-content-between">
+    <div>
+      <p class="my-0 fs-3 text-white">Quote #{{ object.id }}</p>
+      <p class="mt-2 text-white">
+        <span><i data-feather="tool"></i> Service: {{ object.service.name }}</span>
+      </p>
+    </div>
+    <div>
+    <div class="mt-4">
+        <p
+          class="text-white text-uppercase fw-semibold"
+        >
+          {{object.status}}
+        </p>
+    </div>
+    </div>
+  </div>
+
+  <!-- Customer & Quote Details -->
+  <div class="card p-4 mt-5">
+    <div>
+      <h5><i data-feather="user"></i> Customer Details</h5>
+      <h6 class="mt-3">{{ object.user.fullname }}</h6>
+      <p class="my-2">
+        {{ object.user.address.address_line }},<br />
+        {{ object.user.address.city }} - {{ object.user.address.pincode }}<br />
+        {{ object.user.address.state }}<br />
+      </p>
+      <p class="my-2"><i data-feather="phone"></i> Phone: {{ object.user.phone }}</p>
+      <p class="my-2"><i data-feather="mail"></i> Email: {{ object.user.email }}</p>
+    </div>
+    <hr />
+
+    <!-- Quote Problem Details -->
+    <div class="mt-4">
+    <table class="w-100 secondary-table">
+        <thead>
+            <tr class="bg-light text-uppercase w-100">
+                <th>Problem ID</th>
+                <th>Issue</th>
+                <th>Estimated Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for problem in object.problems.all %}
+            <tr class="text-uppercase">
+                <td>#{{ problem.id }}</td>
+                <td>{{ problem.description }}</td>
+                <td class="text-secondary fw-bold">₹{{ problem.estimated_cost }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" class="text-center text-muted">No problems selected.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+
+  </div>
+
+</div>
+
+{% endblock %}

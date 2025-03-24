@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block main %}
+<div class="container mt-5">
+    <h2 class="mb-4">Build Your Custom PC</h2>
+
+    <div class="row">
+        <div class="col-md-12">
+            <form id="pcBuildForm">
+                {% for component in components %}
+                <div class="mb-3">
+                    <label class="form-label"><strong>{{ component.name }}</strong></label>
+                    <select class="form-select component-select" data-category="{{ component.name }}">
+                        <option value="" data-price="0" data-image="">-- Select {{ component.name }} --</option>
+                        {% for product in component.products %}
+                        <option value="{{ product.id }}" data-price="{{ product.price }}" data-image="{{ product.image }}">
+                            {{ product.name }} - ₹{{ product.price }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    
+                    <div class="selected-component card p-2 mt-2 d-none" id="{{ component.name|slugify }}-card">
+                        <p><strong>{{ component.name }}:</strong> <span class="selected-name">None</span></p>
+                        <img src="" class="img-fluid selected-image d-none" width="100">
+                        <p class="mt-2"><strong>Price:</strong> ₹<span class="selected-price">0</span></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </form>
+        </div>
+    </div>
+
+    <h3 class="mt-4">Total Price: ₹<span id="totalPrice">0</span></h3>
+
+    <div class="mt-4">
+        <button class="btn btn-primary text-uppercase text-white" id="checkoutBtn">CHECKOUT</button>
+    </div>
+
+    <form action="{% url 'builder-checkout' %}" class="d-none builder-form">
+        {% csrf_token %}
+    </form>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    let totalPrice = 0;
+    const form = document.querySelector("form");
+
+    function updateTotalPrice() {
+        totalPrice = 0;
+        document.querySelectorAll(".selected-price").forEach(span => {
+            totalPrice += parseInt(span.textContent) || 0;
+        });
+        document.getElementById("totalPrice").textContent = totalPrice;
+    }
+
+    document.querySelectorAll(".component-select").forEach(select => {
+        select.addEventListener("change", function() {
+            let category = this.dataset.category;
+            let selectedOption = this.options[this.selectedIndex];
+            let name = selectedOption.text;
+            let price = selectedOption.dataset.price;
+            let image = selectedOption.dataset.image;
+            let categorySlug = category.toLowerCase().replace(/\s+/g, '-');
+
+            let card = document.getElementById(`${categorySlug}-card`);
+
+            if (selectedOption.value) {
+                card.classList.remove("d-none");
+                card.querySelector(".selected-name").textContent = name;
+                card.querySelector(".selected-price").textContent = price || 0;
+
+                let imgElement = card.querySelector(".selected-image");
+                if (image) {
+                    imgElement.src = image;
+                    imgElement.classList.remove("d-none");
+                } else {
+                    imgElement.classList.add("d-none");
+                }
+
+                let existingCheckboxContainer = document.getElementById(`checkbox-container-${categorySlug}`);
+                if (!existingCheckboxContainer) {
+                    let div = document.createElement("div");
+                    div.id = `checkbox-container-${categorySlug}`;
+
+                    let checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.name = "selected_components";
+                    checkbox.value = selectedOption.value;
+                    checkbox.checked = true;
+                    checkbox.id = `checkbox-${categorySlug}`;
+
+                    let label = document.createElement("label");
+                    label.htmlFor = checkbox.id;
+                    label.textContent = ` ${name}`;
+
+                    div.appendChild(checkbox);
+                    div.appendChild(label);
+
+                    document.querySelector(".builder-form").appendChild(div);
+                } else {
+                    let existingCheckbox = existingCheckboxContainer.querySelector("input");
+                    let existingLabel = existingCheckboxContainer.querySelector("label");
+
+                    existingCheckbox.value = selectedOption.value;
+                    existingLabel.textContent = ` ${name}`;
+                }
+            } else {
+                card.classList.add("d-none");
+
+                let checkboxContainer = document.getElementById(`checkbox-container-${categorySlug}`);
+                if (checkboxContainer) {
+                    checkboxContainer.remove();
+                }
+            }
+
+            updateTotalPrice();
+        });
+    });
+
+        document.querySelector("#checkoutBtn").addEventListener("click", () => {
+            document.querySelector(".builder-form").submit();
+        });
+
+
+});
+
+</script>
+{% endblock %}

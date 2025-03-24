@@ -58,9 +58,17 @@
                     <i data-feather="shopping-bag" width="20" height="20"></i>&nbsp;
                       Orders
                   </a></li>
+                  <li><a class="dropdown-item" href="{% url 'list-custom-orders' %}">
+                    <i data-feather="cpu" width="20" height="20"></i>&nbsp;
+                      Custom Build
+                  </a></li>
                   <li><a class="dropdown-item" href="{% url 'list-bookings' %}">
                     <i data-feather="calendar" width="20" height="20"></i>&nbsp;
                       Bookings
+                  </a></li>
+                  <li><a class="dropdown-item" href="{% url 'warranty_claim_history' %}">
+                    <i data-feather="shield" width="20" height="20"></i>&nbsp;
+                      Warranty Claims
                   </a></li>
                   <li>
                     <a class="dropdown-item" href="{% url 'user-settings' %}">
@@ -124,7 +132,7 @@
                 </ul>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
+              <a href="{% url 'builder' %}" class="nav-link">
                 <i data-feather="monitor" width="20" height="20"></i>&nbsp; PC
                 Builder
               </a>
@@ -136,15 +144,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i data-feather="headphones" width="20" height="20"></i>&nbsp;
-                Customer Support
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i data-feather="alert-circle" width="20" height="20"></i>&nbsp;
-                Need Help
+              <a href="{% url 'submit-claim' %}" class="nav-link">
+                <i data-feather="shield" width="20" height="20"></i>&nbsp;
+                Claim Warranty
               </a>
             </li>
           </ul>

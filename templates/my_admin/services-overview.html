@@ -57,5 +57,24 @@
       <span class="text-white">Bookings</span>
     </div>
   </a>
+  <a
+    href="{% url 'admin/list-booking' %}"
+    class="col bg-gradient-success d-flex align-items-center default-border-radius link-underline link-underline-opacity-0 position-relative py-4 opacity-0"
+  >
+    <img
+      src="{% static 'images/circle.svg' %}"
+      class="position-absolute w-50 end-0"
+      alt="circle-image"
+    />
+    <span class="d-inline-block p-2 m-3 text-white default-border-radius">
+      <i data-feather="calendar" width="48" height="48"></i>
+    </span>
+    <div class="my-4 mx-2">
+      <p class="m-0 fs-5 fw-bold text-white counter">
+        {{extra.bookings_count}}
+      </p>
+      <span class="text-white">Bookings</span>
+    </div>
+  </a>
 </div>
 {% endblock main %}

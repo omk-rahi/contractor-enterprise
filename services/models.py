@@ -50,34 +50,32 @@ class Quote(models.Model):
     service = models.ForeignKey(Service, on_delete=models.DO_NOTHING, related_name="quotes")
     user = models.ForeignKey(CustomUser, on_delete=models.DO_NOTHING, related_name="quotes")
     estimated_cost = models.PositiveIntegerField(null=True, default=0)
-    problem = models.OneToOneField(ServiceCost, on_delete=models.CASCADE, related_name="problem")
-
+    problems = models.ManyToManyField(ServiceCost, related_name="quotes")
 
     def __str__(self):
         return f"Quote on {self.service.name} by {self.user.fullname}"
 
 
 class Booking(models.Model):
-
     STATUS = [
-        ('created', 'Created'), 
-        ('scheduled', 'Scheduled'), 
-        ('in_process', 'In Process'), 
+        ('created', 'Created'),
+        ('scheduled', 'Scheduled'),
+        ('in_process', 'In Process'),
         ('completed', 'Completed'),
         ('canceled', 'Canceled'),
     ]
 
-    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING, related_name="bookings")
+    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING, related_name="bookings") 
+    problems = models.ManyToManyField(ServiceCost, related_name="bookings")
+    
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="bookings")
-    staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="assigned_bookings", null=True)
+    staff = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="assigned_bookings", null=True, blank=True)
 
-    additional_note = models.TextField()
-
+    additional_note = models.TextField(blank=True, null=True)
     cost = models.PositiveIntegerField()
-    status = models.CharField(max_length=20, choices=STATUS, default='Created')
-    scheduled_date = models.DateField(null=True)
+    status = models.CharField(max_length=20, choices=STATUS, default='created')
+    scheduled_date = models.DateField(null=True, blank=True)
     booking_date = models.DateField(auto_now_add=True)
 
-
     def __str__(self):
-        return f"Booking of {self.service.name} by {self.user.fullname}"
+        return f"Booking for {self.service.name} by {self.user.fullname}"

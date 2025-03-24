@@ -3,7 +3,7 @@ from django.views.generic import  View, UpdateView
 from django.urls import reverse_lazy
 from my_admin.utils import AddExtraContextMixin
 from accounts.models import CustomUser
-from shop.models import Order, Payment
+from shop.models import *
 
 # Create your views here.
 
@@ -17,6 +17,9 @@ class DashBoardView(AddExtraContextMixin, View):
             "customer_count": CustomUser.objects.filter(role="customer").count(),
             "staff_count": CustomUser.objects.filter(role="staff").count(),
             "order_count": Order.objects.all().count(),
+            "custom_order_count": CustomPCBuild.objects.all().count(),
+            "warranty_count": Warranty.objects.all().count(),
+            "claim_count": Warranty.objects.all().count(),
             "payment_count": Payment.objects.all().count(),
             "disable_create": True,
             "title": "Dashboard"

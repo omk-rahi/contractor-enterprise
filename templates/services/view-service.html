@@ -1,38 +1,44 @@
-{% extends "base.html" %} {% load crispy_forms_tags %}
+{% extends "base.html" %}
 
 {% block main %}
-    <div class="container gap-4 my-4 bg-white rounded shadow-sm p-5">
+    <div class="container my-4 bg-white rounded shadow-sm p-5">
         <div class="row">
-            <div class="col-8">
-                <h2>{{object.name}}</h2>
-                <p class="w-75">{{object.description}}</p>
+            <!-- Service Details -->
+            <div class="col-md-8">
+                <h2 class="mb-3">{{ service.name }}</h2>
+                <p class="text-muted">{{ service.description }}</p>
 
-                <table class="product-detail-table">
+                <h4 class="mt-4">Service Costs</h4>
+                <table class="w-100 secondary-table">
                     <thead>
-                        <tr class="bg-light">
+                        <tr class="bg-light text-uppercase w-100">
                             <th>Description</th>
-                            <th>Cost</th>
+                            <th>Estimated Cost</th>
                         </tr>
                     </thead>
                     <tbody>
-                    {% for cost in object.costs.all %}
-                        <tr>
-                            <td>{{cost.description}}</td>
-                            <td>{{cost.estimated_cost}}</td>
+                        {% for cost in service.costs.all %}
+                        <tr class="text-uppercase">
+                            <td>{{ cost.description }}</td>
+                            <td class="text-secondary fw-bold">₹{{ cost.estimated_cost }}</td>
                         </tr>
-                    {% endfor %}
+                        {% empty %}
+                        <tr>
+                            <td colspan="2" class="text-center text-muted">No costs available for this service.</td>
+                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-             
+
             </div>
-            <div class="col-4">
-                <form action="{% url 'add-quote' %}" class="bg-primary bg-opacity-10 p-6 card" method="POST">
-                    {% csrf_token %}
-                    <h4 class="text-center">Get a Quote</h4>
-                    <input type="hidden" name="service_id" value={{object.id}}>
-                    {{form|crispy}}
-                    <button class="btn btn-primary text-uppercase text-white mt-4">GET QUOTE</button>
-                </form>
+
+            <!-- Get a Quote Section -->
+            <div class="col-md-4">
+                <div class="card border shadow-sm p-4">
+                    <h4 class="text-center text-primary">Get a Quote</h4>
+                    <p class="text-center text-muted">Interested in this service? Click below to request a quote.</p>
+                    <a href="{% url 'get_quote' service.id %}"class="btn btn-primary text-uppercase text-white w-100 mt-3">Request a Quote</a>
+                </div>
             </div>
         </div>
     </div>

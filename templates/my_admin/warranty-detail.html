@@ -1,0 +1,74 @@
+{% extends "admin-base.html" %}
+{%block main %}
+
+<div class="container mt-5">
+
+  <!-- Warranty Header -->
+  <div class="bg-primary p-4 rounded d-flex align-items-center justify-content-between">
+    <div>
+      <p class="my-0 fs-3 text-white">Warranty #{{ object.id }}</p>
+      <p class="my-0 text-white">
+        <span><i data-feather="package"></i> {{ object.order_item.product.name }}</span> &nbsp;&ndash;&nbsp;
+        <span><i data-feather="calendar"></i> Issued on {{ object.warranty_start_date|date:"M d, Y" }}</span>
+      </p>
+    </div>
+    <div>
+      <p class="fs-2 text-white my-0">
+        <i data-feather="shield"></i> Valid Until: {{ object.warranty_end_date|date:"M d, Y" }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Customer & Order Details -->
+  <div class="card p-4 mt-5">
+    <div>
+      <h5><i data-feather="user"></i> Customer Details</h5>
+      <h6 class="mt-3">{{ object.order_item.order.user.fullname }}</h6>
+      <p class="my-2">
+        {{ object.order_item.order.user.address.address_line }},<br />
+        {{ object.order_item.order.user.address.city }} - {{ object.order_item.order.user.address.pincode }}<br />
+        {{ object.order_item.order.user.address.state }}<br />
+      </p>
+      <p class="my-2"><i data-feather="phone"></i> Phone: {{ object.order_item.order.user.phone }}</p>
+      <p class="my-2"><i data-feather="mail"></i> Email: {{ object.order_item.order.user.email }}</p>
+    </div>
+    <hr />
+
+    <!-- Warranty Product Details -->
+    <div class="mt-4">
+      <table class="table table-bordered">
+        <thead>
+          <tr class="bg-light">
+            <th><i data-feather="hash"></i> Serial Number</th>
+            <th><i data-feather="image"></i> Product</th>
+            <th><i data-feather="tag"></i> Name</th>
+            <th><i data-feather="dollar-sign"></i> Price</th>
+            <th><i data-feather="check-circle"></i> Warranty Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ object.order_item.sku.serial_number }}</td>
+            <td>
+              <img src="{{ object.order_item.product.image }}" 
+                   alt="Image of {{ object.order_item.product.name }}" 
+                   height="80px" class="rounded">
+            </td>
+            <td>{{ object.order_item.product.name }}</td>
+            <td>₹{{ object.order_item.product.price }}</td>
+            <td>
+              {% if object.is_valid %}
+                <span class="badge bg-success">Valid</span>
+              {% else %}
+                <span class="badge bg-danger">Expired</span>
+              {% endif %}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block main %}
+
+<div class="container mt-6 my-4 bg-white rounded shadow-sm py-4 px-5">
+  <div class="mt-6 py-4">
+    <div class="text-center">
+      <img src="{% static 'images/error.svg' %}" alt="Error Image">
+    </div>
+    <h5 class="text-center mt-2 text-danger">Claim Expired</h5>
+    <p class="fw-light text-center fs-7 text-body-secondary">
+      Sorry, the warranty period for this product has expired. Claims can only be made within the valid warranty period.
+    </p>
+
+    <div class="d-flex gap-4 justify-content-center mt-2">
+      <a
+        href="{% url 'home' %}" 
+        class="btn btn-outline-primary text-uppercase link-underline link-underline-opacity-0 d-flex gap-2 align-items-center"
+      >
+        <i data-feather="home" width="24"></i> Go to Home
+      </a>
+      <a
+        href="{% url 'support' %}"
+        class="btn btn-primary text-white text-uppercase link-underline link-underline-opacity-0 d-flex gap-2 align-items-center"
+      >
+        Contact Support <i data-feather="headphones"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

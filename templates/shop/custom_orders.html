@@ -1,0 +1,50 @@
+{% extends "base.html" %} 
+{% load status_class %} 
+
+{% block main %}
+
+{% if not custom_orders %}
+  <div class="center-x container my-4 bg-white rounded shadow-sm p-5">
+    <i data-feather="frown" width="64" height="64"></i>
+    <h4 class="mt-2">No Custom Orders Found!</h4>
+    <p class="text-center">
+      You haven't placed any custom PC build orders yet. Start building now and place your first order!
+    </p>
+  </div>
+
+{% else %}
+
+<div class="container my-4 bg-white rounded shadow-sm py-4 px-5">
+  <h5 class="text-uppercase my-4">Custom PC Build Order History</h5>
+
+  <table class="w-100 secondary-table">
+    <thead>
+      <tr class="bg-light text-uppercase w-100">
+        <th>Order ID</th>
+        <th>Name</th>
+        <th>Date</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in custom_orders %}
+      <tr class="text-uppercase">
+        <td>#{{ order.id }}</td>
+        <td class="fw-semibold">{{ order.name }}</td>
+        <td>{{ order.created_at }}</td>
+        <td class="text-secondary fw-bold">₹{{ order.total_price }}</td>
+        <td>
+          <a href="./{{ order.id }}" class="dropdown-item text-primary">
+            View Detail&nbsp;
+            <i data-feather="arrow-right" width="20" height="20"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock main %}

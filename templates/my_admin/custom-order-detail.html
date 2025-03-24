@@ -1,0 +1,66 @@
+{% extends "admin-base.html" %} 
+{% block main %}
+
+<div class="container mt-6">
+  <div class="bg-primary p-4 default-border-radius d-flex align-items-center justify-content-between">
+    <div>
+      <p class="my-0 fs-3 text-white">#{{ object.id }}</p>
+      <p class="my-0 text-white">
+        <span>Status: {{ object.status }}</span>&nbsp;&ndash;&nbsp;
+        <span>Created on {{ object.created_at|date:"M d, Y H:i" }}</span>
+      </p>
+    </div>
+    <div>
+      <p class="fs-2 text-white my-0">₹{{ object.total_price }}</p>
+    </div>
+  </div>
+
+  <div class="card p-4 mt-6">
+    <div>
+      <h5>Customer Details</h5>
+      <h6 class="mt-4">{{ object.user.fullname }}</h6>
+      <p class="my-2">
+        {{ object.user.address.address_line }},<br />
+        {{ object.user.address.city }} - {{ object.user.address.pincode }}<br />
+        {{ object.user.address.state }}<br />
+      </p>
+
+      <p class="my-2">Phone: {{ object.user.phone }}</p>
+      <p class="my-2">Email: {{ object.user.email }}</p>
+    </div>
+    <hr />
+    <div class="mt-4">
+      <table class="product-detail-table">
+        <thead>
+          <tr class="bg-light">
+            <th>COMPONENT</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in object.items.all %}
+            <tr>
+              <td>
+                <img
+                  src="{{ item.product.image }}"
+                  alt="Image of {{ item.product.name }}"
+                  height="80px"
+                  class="default-border-radius"
+                />
+              </td>
+              <td>{{ item.product.name }}</td>
+              <td>₹{{ item.product.price }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3" class="text-center">No components added to this build.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

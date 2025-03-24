@@ -16,6 +16,10 @@ class ListServiceCostView(AddExtraContextMixin, ListView):
         "fields": [field.name for field in ServiceCost._meta.get_fields() if not field.is_relation]
     }
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(service=self.kwargs.get('pk'))
+
 
 class CreateServiceCostView(AddExtraContextMixin, CreateView):
     model = ServiceCost

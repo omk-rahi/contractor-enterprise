@@ -4,7 +4,7 @@ register = template.Library()
 
 @register.simple_tag
 def status_class(status):
-    if status.lower() in ['delivered', 'completed', 'available']:
+    if status.lower() in ['delivered', 'completed', 'available', 'Approved']:
         return 'success'
     
     elif status.lower() in ['canceled', 'failed', 'rejected', 'sold']:

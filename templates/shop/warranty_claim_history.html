@@ -1,0 +1,55 @@
+{% extends "base.html" %} 
+{% load status_class %} 
+{% block main %}
+
+{% if not claims %}
+  <div class="center-x container my-4 bg-white rounded shadow-sm p-5 text-center">
+     <i data-feather="frown" width="64" height="64"></i>
+    <h4 class="mt-2">No Warranty Claims Found!</h4>
+    <p>
+       You haven't submitted any warranty claims yet. If you have an issue with a product, you can submit a claim.
+    </p>
+    <a href="{% url 'submit-claim' %}" class="btn btn-primary text-uppercase text-white">
+      Submit a Claim
+    </a>
+  </div>
+
+{% else %}
+
+<div class="container my-4 bg-white rounded shadow-sm py-4 px-5">
+  <h5 class="text-uppercase my-4">Warranty Claims</h5>
+
+  <table class="w-100 secondary-table">
+    <thead>
+      <tr class="bg-light text-uppercase w-100">
+        <th>Claim ID</th>
+        <th>Product</th>
+        <th>Status</th>
+        <th>Claim Date</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for claim in claims %}
+      <tr class="text-uppercase">
+        <td>#{{ claim.id }}</td>
+        <td>{{ claim.order_item.product.name }}</td>
+        <td class="text-{% status_class claim.status %} fw-semibold">
+          {{ claim.status }}
+        </td>
+        <td>{{ claim.created_at|date:"M d, Y" }}</td>
+        <td>
+          <a href="{% url 'warranty_claim_detail' claim.id %}" class="dropdown-item text-primary">
+            View Detail&nbsp;
+            <i data-feather="arrow-right" width="20" height="20"></i>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endif %}
+
+{% endblock main %}

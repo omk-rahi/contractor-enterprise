@@ -2,6 +2,7 @@ from django.db import models
 from accounts.models import CustomUser
 from django.db.models import Avg, Count
 from cloudinary.models import CloudinaryField
+from datetime import timedelta, date
 from django.conf import settings
 
 # Create your models here.
@@ -226,3 +227,99 @@ class Reviews(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'product'], name='unique_user_product_review')
         ]
+
+
+class Warranty(models.Model):
+    order_item = models.OneToOneField(OrderItem, on_delete=models.CASCADE, related_name="warranty")
+    warranty_start_date = models.DateField(auto_now_add=True)
+    warranty_end_date = models.DateField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.warranty_end_date:
+            warranty_period = self.order_item.product.warranty_periods
+            if warranty_period is None:
+                warranty_period = 0  
+
+            if not self.warranty_start_date:
+                self.warranty_start_date = date.today()
+
+            self.warranty_end_date = self.warranty_start_date + timedelta(days=30 * warranty_period)
+
+        super().save(*args, **kwargs)
+
+    def is_valid(self):
+        if not self.warranty_end_date:
+            return False  
+        return date.today() <= self.warranty_end_date
+
+    def __str__(self):
+        return f"Warranty for {self.order_item.product.name} (Valid until {self.warranty_end_date})"
+    
+class WarrantyClaim(models.Model):
+    STATUS_CHOICES = [
+        ("Pending", "Pending"),
+        ("Approved", "Approved"),
+        ("Rejected", "Rejected"),
+        ("Resolved", "Resolved"),
+    ]
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="warranty_claims")
+    order_item = models.ForeignKey("OrderItem", on_delete=models.CASCADE, related_name="warranty_claims")
+    claim_reason = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default="Pending")
+    admin_remark = models.TextField(blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Claim {self.id} - {self.order_item.product.name} ({self.status})"
+
+class CustomPCBuild(models.Model):
+
+    STATUS = [
+        ('Order Placed', 'Order Placed'), 
+        ('processing', 'Processing'), 
+        ('shipped', 'Shipped'),
+        ('out for delivery', 'Out for Delivery'),
+        ('delivered', 'Delivered'),
+        ('canceled', 'Canceled'),
+    ]
+
+    
+
+    status = models.CharField(max_length=50, choices=STATUS, default='Order Placed')
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="custom_pc_builds")
+    name = models.CharField(max_length=100)
+    total_price = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def calculate_total_price(self):
+        self.total_price = sum(item.product.price for item in self.items.all())
+        self.save()
+
+    def __str__(self):
+        return f"{self.name} by {self.user.username}"
+
+
+class PCBuildItem(models.Model):
+    COMPONENT_CHOICES = [
+        ("CPU", "Processor (CPU)"),
+        ("GPU", "Graphics Card (GPU)"),
+        ("RAM", "Memory (RAM)"),
+        ("Storage", "Storage (SSD/HDD)"),
+        ("Motherboard", "Motherboard"),
+        ("Power Supply", "Power Supply Unit (PSU)"),
+        ("Cooling", "Cooling System"),
+        ("Case", "PC Case"),
+        ("Monitor", "Monitor"),
+        ("Keyboard", "Keyboard"),
+        ("Mouse", "Mouse"),
+    ]
+
+    build = models.ForeignKey(CustomPCBuild, on_delete=models.CASCADE, related_name="items")
+    product = models.ForeignKey("Product", on_delete=models.CASCADE, related_name="pc_build_items")
+    component_type = models.CharField(max_length=20, choices=COMPONENT_CHOICES)
+
+    def __str__(self):
+        return f"{self.product.name} ({self.get_component_type_display()})"

@@ -1,0 +1,96 @@
+{% extends "base.html" %} 
+{% load status_class %} 
+{% block main %}
+
+<div class="container mt-6 my-4 bg-white rounded shadow-sm py-4 px-5">
+  <div
+    class="p-4 default-border-radius d-flex align-items-center justify-content-between w-100"
+  >
+    <div>
+      <p class="my-0 fs-3">#{{ object.id }}</p>
+      <p class="my-0">
+        <span>{{ object.items.count }} Products</span>&nbsp;&ndash;&nbsp;
+        <span>Order Placed on {{ object.created_at|date:"M d, Y H:i" }}</span>
+      </p>
+    </div>
+    <div class="d-flex align-items-end flex-column">
+      <p class="fs-2 my-0">₹{{ object.total_price }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="mt-4 col-8">
+      <table class="product-detail-table">
+        <thead>
+          <tr class="bg-light">
+            <th>PRODUCT</th>
+            <th>NAME</th>
+            <th>PRICE</th>
+            <th>SUB TOTAL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in object.items.all %}
+          <tr>
+            <td>
+              <img
+              src="{{ item.product.image }}"
+              alt="Image of {{ item.product.name }}"
+              height="80px"
+              class="default-border-radius"
+              />
+            </td>
+            <td>{{ item.product.name }}</td>
+            <td>₹{{ item.product.price }}</td>
+            <td>₹{{ item.subtotal }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="border p-4 mt-4 col-4">
+      <div>
+        <h5>Billing Address</h5>
+        <h5 class="mt-4">{{ object.user.fullname }}</h5>
+        <p class="my-2">
+          {{ object.user.address.address_line }},<br />
+          {{ object.user.address.city }} - {{ object.user.address.pincode }}<br />
+          {{ object.user.address.state }}<br />
+        </p>
+        
+        <p class="my-2">Phone: {{ object.user.phone }}</p>
+        <p class="my-2">Email: {{ object.user.email }}</p>
+      </div>
+    </div>
+  </div>
+
+  {% if object.status != 'canceled' and object.status != 'delivered' %}
+    <div class="mt-6">
+      <button class="btn btn-danger text-uppercase text-white" data-bs-toggle="modal" data-bs-target="#orderCancelModal">Cancel Order</button>
+    </div>
+  {% endif %}
+
+  <div class="modal fade" id="orderCancelModal" tabindex="-1" aria-labelledby="orderCancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header d-flex justify-content-between">
+          <h1 class="modal-title fs-6 text-uppercase" id="orderCancelModalLabel">Confirm Order Cancellation</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you sure you want to cancel this order? This action cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary text-uppercase" data-bs-dismiss="modal">Close</button>
+          <form action="{% url 'cancel-custom-order' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="order_id" value="{{ object.id }}">
+            <button type="submit" class="btn btn-danger text-uppercase text-white">Cancel order</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock main %}

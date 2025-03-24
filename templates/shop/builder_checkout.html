@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block main %}
+<div class="container mt-4 bg-white rounded shadow-sm p-5">
+    <div class="row gap-4 justify-content-between align-items-start">
+        <div class="col-8 p-4">
+            <h4>Shipping Information</h4>
+            <form action="{% url 'builder-checkout' %}" class="mt-4" method="post">
+                {% csrf_token %}
+                {{ checkout_form.fullname|as_crispy_field }}
+                {{ address_form.address_line|as_crispy_field }}
+
+                <div class="row row-cols-3">
+                    {{ address_form.pincode|as_crispy_field }}
+                    {{ address_form.city|as_crispy_field }}
+                    {{ address_form.state|as_crispy_field }}
+                </div>
+
+                <div class="row row-cols-2">
+                    {{ checkout_form.email|as_crispy_field }}
+                    {{ checkout_form.phone|as_crispy_field }}
+                </div>
+
+                <!-- Payment Method -->
+                <div class="my-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="payment_mode" id="cod" value="cod" checked required>
+                        <label class="form-check-label" for="cod">
+                            Cash on Delivery (COD)
+                        </label>
+                    </div>
+                </div>
+
+                {% for product in selected_components %}
+                    <input type="hidden" name="selected_components" value="{{ product.id }}">
+                {% endfor %}
+
+                <button class="btn btn-primary text-uppercase text-white mt-2 w-100">
+                    Proceed to Checkout&nbsp;<i data-feather="arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="col-3 card p-4 bg-primary bg-opacity-10">
+            <h4 class="mb-4">Order Summary</h4>
+
+            {% if products %}
+                <ul class="p-0">
+                    {% for product in products %}
+                    <li class="d-flex gap-4 mb-3">
+                        <img src="{{ product.image }}" alt="{{ product.name }}" width="48px" height="48px">
+                        <div>
+                            <p class="m-0 fw-bold">{{ product.name }}</p>
+                            <p class="text-primary">₹{{ product.price }}</p>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No components selected.</p>
+            {% endif %}
+
+            <p class="d-flex justify-content-between">
+                <span>Subtotal</span>
+                <span>₹{{ subtotal }}</span>
+            </p>
+            <p class="d-flex justify-content-between">
+                <span>Build Charge</span>
+                {% if build_charge == 0 %}
+                    <span>Free</span>
+                {% else %}
+                    <span>₹{{ build_charge }}</span>
+                {% endif %}
+            </p>
+            <hr>
+            <p class="d-flex justify-content-between fw-bold">
+                <span>Total</span>
+                <span>₹{{ total }}</span>
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock main %}
